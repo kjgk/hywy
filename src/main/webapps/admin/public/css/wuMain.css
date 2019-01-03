@@ -1,0 +1,535 @@
+/*头部菜单*/
+body{
+	background: #f7f7f7;
+}
+.header .navbar{
+	min-height: 65px;
+	margin-bottom: 0;
+	background: -webkit-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+	background: -o-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+	background: -moz-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+	background: linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+	background: -ms-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#258EDA, endColorStr=#0372CC);
+}
+.btnAdd{
+	border: 1px solid #4A90E2 !important;
+	color: #4A90E2;
+}
+.btnAdd:hover{
+	opacity: .8;
+	color: #4A90E2;
+	background: rgba(74,144,226,.1);
+}
+.navbar-brand .normal-logo{
+	margin-top: -7px;
+	margin-left: 25px;
+}
+.navbar-nav{
+	font-weight: 400;
+	
+}
+.navbar-nav > li > a{
+	font-size: 16px;
+	padding:22px 25px 0px;
+	color: #fff !important;
+	min-height: 65px;
+	/*transition: all 0.5s;*/
+    /*-webkit-transition: all 0.5s;*/
+	/*margin:0 8px;*/
+}
+.navbar-nav > li > a:hover,.navbar-nav > li.active > a{
+	background-color: rgba(0,0,0,0.20) !important;
+	color: #fff !important;
+	font-weight: 600;
+}
+.navbar-collapse .username{
+	padding-top: 22px;
+	width: 300px;
+	text-align: right;
+	font-size: 14px;
+	color: #fff;
+	float: right;
+	margin-right: 20px;
+}
+.navbar-collapse .username b{
+	margin-right: 20px;
+}
+.navbar-collapse .username a{
+	color: #fff;
+	margin:0 10px
+}
+.navbar-collapse .modify .fa{
+	margin-right: 5px;
+}
+/*搜索框*/
+.projectList .searchBox {
+	padding:15px 25px
+}
+.searchBox button.btnSearch{
+	background: -webkit-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+	background: -o-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+	background: -moz-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+	background: linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+	background: -ms-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#258EDA, endColorStr=#0372CC);
+	color: #fff;
+	border:1px solid #258EDA;
+	padding-left:25px;
+	padding-right: 25px;
+	height: 37px;
+}
+.whiteBg{
+	background: #FFFFFF;
+	box-shadow: 0 0 4px 0 rgba(0,0,0,0.07);
+	margin:0 15px 15px;
+}
+.projectList .tab-content>.active{
+	min-height: 200px;
+}
+.contractL{
+	margin: 20px 0;
+	border-radius: 0;	
+	overflow-x: auto;
+	width: 1138px;
+}
+.contractL .table{
+	border-radius: 0;	
+}
+.contractL th{
+	background: #EBEBEB;
+	height: 50px;
+	font-size: 16px;
+	vertical-align: middle !important;
+	text-align: center;
+}
+.contractL td{
+	font-size: 16px;
+	vertical-align: middle !important;
+	text-align: center;
+}
+.contractL .total{
+	color: #D0021B;
+	font-weight: 600;
+}
+.contractL tr:hover{
+	background: #F7F7F7;
+	
+}
+.handTr tr:hover{
+	cursor: pointer;
+}
+.contractL .projectImg img{
+	width: 50px;
+	height: 50px;
+}
+.contractL .table th{
+	border-right: 1px solid #ddd;
+}
+.contractL .table td{
+	white-space: nowrap;
+	border-right: 1px solid #ddd;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.productName{
+	border-bottom: 3px solid #EEEEEE;
+}
+.btnAdd .fa{
+	margin-right: 8px;
+}
+.projectList .nav>li>a{
+	padding-left: 20px;
+	padding-right: 20px;
+}
+/*分页*/
+.paginationBox{
+	text-align: center;
+}
+.projectList .breadcrumb{
+	font-size: 16px;
+	margin-top: 15px;
+}
+.contract-module .input-group[class*="col-"]{
+	padding-left: 15px;
+}
+.contract-module .form-group *{
+	font-size: 15px;
+}
+.contract-module  input.form-control{
+	height: 37px;
+
+}
+.contract-module .form-control{
+	color: #4A4A4A;
+	/*border-color: #DDDDDD;*/
+}
+.contract-module button.other{
+	border-radius: 4px;
+	height: 37px;
+	background: #F9F9F9;
+	border: 1px solid #DDDDDD;
+	margin-left: -15px;
+	font-size: 20px;
+	font-weight: 800;
+	color:#9B9B9B;
+}
+.contract-module .btn-default{
+	border:1px solid #ddd
+}
+.contractTitle{
+	font-size: 24px;
+	line-height: 200%;
+	margin-left: 25px;
+	margin-bottom: 25px;
+}
+.contractBtnGroup{
+	border-top: 1px solid #ddd;
+	margin: 40px 15px !important;
+	padding-top: 30px;
+	text-align: center;
+}
+.contractBtnGroup .btn{
+	font-size: 18px;
+	border-radius: 6px;
+	min-width: 100px;
+	padding-left: 18px;
+	padding-right: 18px;
+	margin-right: 15px;
+}
+.contractBtnGroup .btn-primary{
+	background-image: linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+	background: -webkit-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+	background: -o-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+	background: -moz-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+	background: -ms-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#258EDA, endColorStr=#0372CC);
+	
+}
+.projectList .dropdown-menu>.active>a,.projectList .dropdown-menu>.active>a:hover,.projectList .dropdown-menu>.active>a:focus{
+	background: #258EDA;
+}
+.projectAmount th{
+	background: #eaf5ff;
+	color: #006DCC;
+	text-align: center !important;
+	border-bottom: 1px solid #9dd1ff !important;
+	border-right-color: #eaf5ff !important;
+}
+.projectAmount td{
+	text-align: center;
+}
+.projectAmount{
+	border: 2px solid #9dd1ff;
+	width: 95%;
+	margin: 0 auto;
+	font-size: 15px;
+	margin-bottom: 20px;
+}
+.projectAmount .money{
+	font-weight: 600;
+}
+.projectAmount td{
+	border:1px solid #fff !important;
+}
+/*弹窗*/
+.popBtnGroup{
+	text-align: center;
+}
+.popBtnGroup .btn{
+	font-size: 15px;
+	border-radius: 6px;
+	min-width: 100px;
+	padding-left: 18px;
+	padding-right: 18px;
+	margin-right: 15px;
+
+}
+.popBtnGroup .btn-primary{
+	background-image: linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+	background: -webkit-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+	background: -o-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+	background: -moz-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+	background: -ms-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
+FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#258EDA, endColorStr=#0372CC);
+	
+}
+.popBtnGroup .btn-default{
+	border: 1px solid #258EDA;
+	color: #258EDA;
+}
+.popVendorM .searchBox{
+	padding: 0;
+}
+.popVendorM .vendorList{
+	margin-top: 15px;
+	max-height: 200px;
+	overflow: auto;
+}
+.popVendorM .vendorList th{
+	background: #F7F7F7;
+}
+.popVendorM .vendorList tr>td:first-child{
+	text-align: center;
+}
+.popVendorM .vendorList tr:hover{
+	background: #f7f7f7;
+}
+.bgBlue{
+	background: #CBE3FF;
+}
+/*合同详情页*/
+.contractDetailTitle{
+	text-align: center;
+	margin: 50px;
+}
+.contractDetailTitle .btnEdit{
+	margin-top: 8px;
+	margin-right: 20px;
+	font-size: 18px;
+	float: right;
+}
+.contractDetial{
+	width: 90%;
+	margin: 0 auto;
+}
+.contractDetial th{
+	text-align: right;
+}
+.contractDetial td,.contractDetial th{
+	font-size: 16px;
+	padding:12px 8px!important
+}
+.contractDetial .table-striped>tbody>tr:nth-of-type(odd){
+	background-color: #fff;
+}
+.contractDetial .table-striped>tbody>tr:nth-of-type(even){
+	background-color: #f9f9f9;
+}
+.operationBtn{
+	margin-top: 15px;
+	text-align: center;
+	padding-right:20px ;
+}
+.operateBtn a{
+	margin-right: 15px;
+	color: #4A90E2;
+}
+.operateBtn a:last-child{
+	margin-right: 0;
+}
+.operateBtn a>i{
+	margin-right: 5px;
+}
+.contract-module a{
+	color: #4A90E2;
+}
+.contract-module .modal-backdrop{
+	z-index: 10;
+}
+.popPaymentI .xxje+.dx{
+	margin-top: 5px;
+	color: #ff0000;
+}
+.contractDetialTabs{
+	margin: 10px 50px;
+}
+.contractDetialContent{
+	margin: 0 50px;
+}
+.contractDetialContent .contractL{
+	width: auto;
+}
+.contractDetialTabs a{
+	padding-left:25px !important;
+	padding-right: 25px !important;
+}
+/*页脚*/
+.footer{
+	text-align: center;
+	padding:50px 0;
+	color: #666;
+}
+/*登录页面*/
+.loginModule{
+	background:#f7f7f7 url(../img/loginBg.png) top center no-repeat;
+}
+.login .center-block{
+	margin: 0 auto;
+}
+.loginBox{
+	position: absolute;
+	top: 50%;
+	margin-top: -250px;
+}
+.loginCon{
+	background: #FFFFFF;
+	box-shadow: 0 0 6px 0 rgba(0,0,0,0.20);
+	width: 424px;
+	border-radius: 2px;
+	padding:25px;
+	position: relative;
+	z-index: 2;
+}
+.loginLogo{
+	color: #fff;
+	font-size: 16px;
+	margin-bottom: 23px;
+	width: 424px;
+	padding-left: 20px;
+}
+.loginLogo img{
+	margin-right: 10px;
+	vertical-align: -12px;
+}
+.loginTitle{
+	font-size: 26px;
+	color: #258EDA;
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 10px;
+}
+.loginTitle span{
+	color: #ccc;
+	font-size: 16px;
+	margin-left: 15px;
+}
+.pLogin .form-group{
+	position: relative;
+	margin-top: 25px;
+}
+.pLogin .form-group i.fa{
+	position: absolute;
+	top:8px;
+	left: 10px;
+	font-size: 30px;
+	color: #ccc;
+}
+.pLogin .form-group i.fa-mobile{
+	left: 13px;
+	
+}
+.pLogin .form-control{
+	padding-left: 40px;
+	border-radius: 0;
+	border-color:#DDDDDD
+}
+.pLogin .form-group input::-webkit-input-placeholder{
+	color: #ccc;
+}
+.pLogin .checkbox{
+	font-size: 16px;
+	margin: 0;
+}
+.pLogin .btnGroup{
+	margin: 20px 0;
+}
+.pLogin .btnGroup button{
+	background: #4A90E2;
+	border-radius: 0;
+	border-color: #4A90E2;
+	
+}
+.loginShadow{
+	position: absolute;
+	width: 548px;
+	height: 101px;
+	background-image: url(../img/loginShadow.png);
+	background-repeat: no-repeat;
+	bottom: 65px;
+	background-size: contain;
+	z-index: 1;
+	left: 50%;
+	margin-left: -274px;
+}
+/*销售管理*/
+.colorGetOut,.colorGetInto{
+	color: #fff;
+	display: inline-block;
+	border-radius: 3px;
+	padding:3px 5px;
+	font-size: 13px;
+}
+.colorGetOut{
+	background-color: #4A90E2;
+}
+.colorGetInto{
+	background-color: #ff8800;
+}
+.sales-module .money{
+	text-align: right;
+}
+.sales-module input.form-control{
+	height: 37px;
+}
+.btnAddOut{
+	border: 1px solid #4A90E2 !important;
+	color: #4A90E2;
+}
+.btnAddOut:hover{
+	opacity: .8;
+	color: #4A90E2;
+	background: rgba(74,144,226,.05);
+}
+.btnAddInto{
+	border: 1px solid #ff8800 !important;
+	color: #ff8800;
+}
+.btnAddInto:hover{
+	opacity: .8;
+	color: #ff8800;
+	background: rgba(250,136,0,.05);
+}
+.btnAddInto,.btnAddOut{
+	margin-right: 8px;
+}
+.btnAddInto .fa,.btnAddOut .fa{
+	margin-right: 8px;
+}
+.saleFilter{
+	padding-top:18px;
+	text-align: right;
+}
+.selectBox{
+	width: 150px;
+	display: inline-block;
+	margin-left: 20px;
+}
+
+.addSalesForm .info{
+	border-left: 4px solid #4A90E2;
+	padding-left: 15px;
+	margin-left: 60px;
+	margin-top:20px;
+	margin-bottom: 20px;
+	position: relative;
+}
+.addSalesForm .info .baseline{
+	border-bottom: 1px solid #ddd;
+	margin-bottom: -20px;
+	position: absolute;
+	top: 10px;
+	left: 120px;
+	width: 85%;
+}
+.goodsChoose{
+	border-radius: 4px;
+	height: 37px;
+	background: #F9F9F9;
+	border: 1px solid #DDDDDD;
+	margin-left: -15px;
+	font-size: 20px;
+	font-weight: 800;
+	color:#9B9B9B;
+}
+.goodsL td,.goodsL th{
+	text-align: center;
+	border-right: 1px solid #ddd;
+}
+.goodsL th{
+	background: #eee;
+	vertical-align: middle !important;
+}
+.goodsL th:last-child,.goodsL td:last-child{
+	border-right-width: 0;
+}
+

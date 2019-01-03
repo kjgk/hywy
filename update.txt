@@ -1,0 +1,52 @@
+数据库：
+rm-uf60o48ndya3cm3k4o.mysql.rds.aliyuncs.com
+nw
+NWqwertyuiop1234
+
+
+
+CREATE TABLE `pact_serial` (
+  `ID` int(11) NOT NULL,
+  `CURRENT_NO` bigint(11) NOT NULL,
+  PRIMARY KEY (`ID`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `hywy`.`tbl_attach`
+ADD COLUMN `upload_filename` varchar(255) NULL AFTER `status`,
+ADD COLUMN `upload_time` datetime(0) NULL AFTER `upload_filename`;
+
+数据库更新：
+ -- 修改tbl_users表pass字段长度
+ -- 修改pacts表type1字段类型为varchar(11)
+ -- 修改pacts表SIGN_DATE字段类型为datetime
+ -- 修改pacts表SIGN_DATE2字段类型为datetime
+ -- 修改pacts表PACT_NO字段类型为bigint
+
+ALTER TABLE `hywy`.`pacts`
+MODIFY COLUMN `TYPE_1` varchar(11) NULL DEFAULT NULL FIRST,
+MODIFY COLUMN `PACT_NO` bigint(11) NOT NULL AFTER `TYPE_4`,
+MODIFY COLUMN `SIGN_DATE` datetime(0) NULL DEFAULT NULL AFTER `SIGN_D`,
+MODIFY COLUMN `SIGN_DATE2` datetime(0) NULL DEFAULT NULL AFTER `SIGN_DATE`;
+
+
+
+ -- 修改payment表PAY_NO字段类型为bigint，主键设为PAY_NO
+ -- 修改payment表PACT_NO字段类型为bigint
+ -- 修改payment表PAY_DATE字段类型为date
+
+ALTER TABLE `hywy`.`payment`
+MODIFY COLUMN `PACT_NO` bigint(11) NOT NULL FIRST,
+MODIFY COLUMN `PAY_NO` bigint(11) NOT NULL AFTER `PACT_NO`,
+MODIFY COLUMN `PAY_DATE` date NULL DEFAULT NULL AFTER `PAY_NO`,
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`PAY_NO`) USING BTREE;
+
+ -- 新增pact_serial表
+
+ -- 修改tbl_attach表attach_no字段类型为bigint
+ -- 修改tbl_attach表pact_no字段类型为bigint
+ -- 修改tbl_attach表新增upload_filename字段
+ -- 修改tbl_attach表新增upload_time字段
+ ALTER TABLE `hywy`.`tbl_attach`
+ MODIFY COLUMN `attach_no` bigint(11) NOT NULL FIRST,
+ MODIFY COLUMN `pact_no` bigint(11) NOT NULL AFTER `attach_no`;

@@ -1,0 +1,22 @@
+  /* Fonts css */
+
+/*@import "http://fonts.googleapis.com/css?family=Raleway:400,300,200,100,500,600,700,800,900";*/
+@import "font-awesome.min.css";
+/*@import "simple-line-icons.css";*/
+
+/* Basic css */
+@import "bootstrap-select.min.css";
+@import "bootstrap-datetimepicker.min.css";
+@import "bootstrap.min.css";
+@import "fileinput.min.css";
+
+
+@import "wuMain.css";
+
+/*@import "animate.css";*/
+
+@media (min-width: 992px){
+	.container {
+	    width: 1170px;
+	}
+}
