@@ -8,7 +8,7 @@ import Modal from './Modal'
 import DocumentTitle from '../../compoment/DocumentTitle'
 
 const namespace = 'company'
-const name = '厂商'
+const name = '客户'
 
 const Component = ({
                      location, dispatch, model, loading,
@@ -102,7 +102,7 @@ const Component = ({
   }
 
   return (
-    <DocumentTitle title="厂商管理">
+    <DocumentTitle title="客户管理">
       <section className="projectList">
         <div className="container">
           <Filter {...filterProps} />

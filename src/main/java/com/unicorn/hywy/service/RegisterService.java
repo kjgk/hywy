@@ -1,6 +1,7 @@
 package com.unicorn.hywy.service;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.unicorn.hywy.exception.ServiceException;
 import com.unicorn.hywy.model.po.QUser;
 import com.unicorn.hywy.model.po.User;
 import com.unicorn.hywy.model.vo.RegisterInfo;
@@ -34,7 +35,7 @@ public class RegisterService {
 
         String verifyCode = smsVerificationService.getVerifyCode(registerInfo.getPhoneNo(), "reg");
         if (StringUtils.isEmpty(verifyCode) || !verifyCode.equals(registerInfo.getVerifyCode())) {
-//            throw new ServiceException("验证码不正确!");
+            throw new ServiceException("验证码不正确!");
         }
 
         // 保存用户和帐号信息

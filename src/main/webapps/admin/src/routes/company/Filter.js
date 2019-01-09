@@ -34,7 +34,7 @@ const Filter = ({
           </div>
         </div>
         <div className="col-xs-4">
-          <button className="btn btn-default btnAdd" type="button" onClick={onAdd}><span></span>新增厂商</button>
+          <button className="btn btn-default btnAdd" type="button" onClick={onAdd}><span></span>新增客户</button>
         </div>
       </form>
     </div>

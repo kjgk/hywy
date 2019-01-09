@@ -36,14 +36,13 @@ const Component = ({
       if (errors) {
         return
       }
-
-      const {auditSum, pactSum, signDates, ...values} = getFieldsValue()
+      const {auditSum, pactSum, signDate, signDate2, ...values} = getFieldsValue()
       dispatch({
         type: 'pactForm/save',
         payload: {
           ...values,
-          signDate: signDates[0] && signDates[0].format('Y-MM-DD'),
-          signDate2: signDates[1] && signDates[1].format('Y-MM-DD'),
+          signDate: signDate && signDate.format('Y-MM-DD'),
+          signDate2: signDate2 && signDate2.format('Y-MM-DD'),
           auditSum: getMoneyValue(auditSum),
           pactSum: getMoneyValue(pactSum),
         }
@@ -167,10 +166,15 @@ const Component = ({
 
                         <div className="form-group">
                           <label className="col-sm-4 control-label">日期：</label>
-                          <div className="col-sm-8">
-                            {getFieldDecorator('signDates', {
-                              initialValue: [pact.signDate ? moment(pact.signDate) : null, pact.signDate2 ? moment(pact.signDate2) : null],
-                            })(<RangePicker size="large"/>)}
+                          <div className="col-sm-4">
+                            {getFieldDecorator('signDate', {
+                              initialValue: pact.signDate ? moment(pact.signDate) : null,
+                            })(<DatePicker size="large" placeholder="开始日期"/>)}
+                          </div>
+                          <div className="col-sm-4">
+                            {getFieldDecorator('signDate2', {
+                              initialValue: pact.signDate2 ? moment(pact.signDate2) : null,
+                            })(<DatePicker size="large" placeholder="结束日期"/>)}
                           </div>
                         </div>
                         <div className="form-group">
