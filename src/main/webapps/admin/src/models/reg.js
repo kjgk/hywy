@@ -23,6 +23,13 @@ export default modelExtend(model, {
   state: {
     errorMessage: undefined,
     countDown: 0,
+    /**
+     * 0：初始状态，显示用户注册窗口
+     * 1：手机号已注册并且已经通过审核，允许直接登录（如果用户忘记密码可以通过重新注册，找回密码）
+     * 2：注册成功，需要等待审核
+     * 3：手机号已注册但未通过审核，提示错误信息
+     */
+    resultCode: 0,
   },
 
   subscriptions: {
@@ -34,6 +41,8 @@ export default modelExtend(model, {
             type: 'updateState',
             payload: {
               errorMessage: undefined,
+              countDown: 0,
+              resultCode: 0,
             },
           })
         }
@@ -58,14 +67,17 @@ export default modelExtend(model, {
           payload: {errorMessage},
         })
       } else {
-        const {success, message} = yield call(register, payload)
+        const {success, message, resultCode} = yield call(register, payload)
         if (success) {
           yield put({type: 'app/query'})
           yield put(routerRedux.push('/contract'))
         } else {
           yield put({
             type: 'updateState',
-            payload: {errorMessage: message || '注册失败！'},
+            payload: {
+              errorMessage: resultCode !== 2 ? (message || '注册失败！') : undefined,
+              resultCode,
+            },
           })
         }
       }

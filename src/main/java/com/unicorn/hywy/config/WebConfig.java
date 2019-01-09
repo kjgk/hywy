@@ -10,7 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -108,7 +110,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter implements WebMvcCon
         RegLoginProcessingFilter processingFilter = new RegLoginProcessingFilter("/register");
         processingFilter.setAuthenticationManager(authenticationManager());
         processingFilter.setSessionAuthenticationStrategy(new SessionFixationProtectionStrategy());
-        processingFilter.setAuthenticationFailureHandler(authenticationFailureHandler());
+        processingFilter.setAuthenticationFailureHandler(regAuthenticationFailureHandler());
         processingFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler());
         return processingFilter;
     }
@@ -132,14 +134,34 @@ public class WebConfig extends WebSecurityConfigurerAdapter implements WebMvcCon
             public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
                 String message;
                 if (exception instanceof UsernameNotFoundException) {
-                    message = "用户不存在!";
+                    message = "帐号不存在!";
                 } else if (exception instanceof BadCredentialsException) {
                     message = "帐号密码错误，请重新输入!";
+                } else if (exception instanceof DisabledException) {
+                    message = "帐号不可用，请重新输入!";
                 } else {
                     message = exception.getMessage();
                 }
                 Map result = new HashMap();
                 result.put("message", message);
+                result.put("success", false);
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().print(JSON.toJSONString(result));
+            }
+        };
+    }
+
+    @Bean(name = "regAuthenticationFailureHandler")
+    public AuthenticationFailureHandler regAuthenticationFailureHandler() {
+        return new SimpleUrlAuthenticationFailureHandler() {
+            public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+                int resultCode = 3;
+                if (exception instanceof AccountStatusException) {
+                    resultCode = 2;
+                }
+                Map result = new HashMap();
+                result.put("message", exception.getMessage());
+                result.put("resultCode", resultCode);
                 result.put("success", false);
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().print(JSON.toJSONString(result));

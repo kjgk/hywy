@@ -19,10 +19,10 @@ public class User {
     @Column(name = "pass")
     private String password;
 
-    @Column(name = "odby")
     private String odby;
 
-    @Column(name = "project")
     private String project;
+
+    private Character status;
 
 }

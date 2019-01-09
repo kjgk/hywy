@@ -71,3 +71,7 @@
   background-image: linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
   background: -webkit-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
 }
+
+.navbar-collapse .username {
+  margin: 0 20px 0 320px;
+}

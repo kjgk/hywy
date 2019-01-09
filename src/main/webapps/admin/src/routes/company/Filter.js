@@ -1,5 +1,5 @@
 import React from 'react'
-import {createForm} from 'rc-form'
+import {Form} from 'antd'
 
 const Filter = ({
                   onAdd,
@@ -41,4 +41,4 @@ const Filter = ({
   )
 }
 
-export default createForm()(Filter)
+export default Form.create()(Filter)

@@ -50,3 +50,7 @@ ADD PRIMARY KEY (`PAY_NO`) USING BTREE;
  ALTER TABLE `hywy`.`tbl_attach`
  MODIFY COLUMN `attach_no` bigint(11) NOT NULL FIRST,
  MODIFY COLUMN `pact_no` bigint(11) NOT NULL AFTER `attach_no`;
+
+ -- 修改tbl_users表新增status字段
+ ALTER TABLE `hywy`.`tbl_users`
+ ADD COLUMN `status` char(1) NULL COMMENT '0：未审核，1：正常，2：审核未通过' AFTER `project`;

@@ -1,6 +1,7 @@
 package com.unicorn.hywy.security.reg;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -20,6 +21,10 @@ public class RegAuthenticationProvider implements AuthenticationProvider {
 
         RegAuthenticationToken regAuthenticationToken = (RegAuthenticationToken) authentication;
         UserDetails userDetails = userDetailsService.loadUserByUsername(regAuthenticationToken.getRegisterInfo().getPhoneNo());
+        if (!userDetails.isEnabled()) {
+            throw new AccountStatusException("") {
+            };
+        }
         RegAuthenticationToken authenticationToken = new RegAuthenticationToken(userDetails, userDetails.getAuthorities());
         authenticationToken.setAuthenticated(true);
         return authenticationToken;

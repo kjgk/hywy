@@ -30,7 +30,9 @@ spring:
       write-dates-as-timestamps: true
   resources:
     cache:
-      period: 1d
+      cachecontrol:
+        cache-public: true
+      period: 7d
   redis:
     host: 192.168.171.102
     password: 123456

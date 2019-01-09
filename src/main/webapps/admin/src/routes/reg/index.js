@@ -1,8 +1,9 @@
 import React from 'react'
 import {connect} from 'dva'
-import {createForm} from 'rc-form'
+import {Alert, Form} from 'antd'
 import DocumentTitle from "../../compoment/DocumentTitle"
 import Footer from '../Footer'
+import {Link} from "react-router-dom"
 
 const Register = ({
                     reg,
@@ -15,7 +16,7 @@ const Register = ({
                     },
                   }) => {
 
-  const {countDown, errorMessage} = reg
+  const {countDown, errorMessage, resultCode} = reg
 
   function handleOk(e) {
     e.preventDefault()
@@ -61,6 +62,7 @@ const Register = ({
               <div className="loginTitle">
                 用户注册 <span>User Register</span>
               </div>
+              {resultCode !== 2 &&
               <form onSubmit={handleOk}>
                 <div className="pLogin">
                   {errorMessage && !loading.effects.reg && renderMessage(errorMessage)}
@@ -96,8 +98,6 @@ const Register = ({
                                   type="button" onClick={() => handleVerifyCode()}>发送验证码</button>
                     }
                   </div>
-
-
                   <div className="form-group ">
                     <i className="fa fa-lock"/>
                     {getFieldDecorator('password', {
@@ -126,8 +126,16 @@ const Register = ({
                     <button type="submit" className="btn btn-primary btn-lg btn-block">注册</button>
                   </div>
                 </div>
-              </form>
-
+              </form>}
+              {resultCode === 2 && <div style={{padding: '30px 0 10px 0'}}>
+                <Alert
+                  message="提示"
+                  description="注册成功，请等待我们工作人员的审核"
+                  type="info"
+                  showIcon
+                />
+                <Link style={{fontSize: 16, marginTop: 20, display: 'block', textAlign: 'center'}} to="/login">返回登录</Link>
+              </div>}
             </div>
             <div className="loginShadow"/>
             <Footer/>
@@ -141,4 +149,4 @@ const Register = ({
 export default connect(({reg, loading}) => ({
   loading,
   reg,
-}))(createForm()(Register))
+}))(Form.create()(Register))

@@ -26,8 +26,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("用户不存在!");
         }
+        boolean enabled = false;
+        if (user.getStatus().equals('0')) {
+        } else if (user.getStatus().equals('1')) {
+            enabled = true;
+        } else if (user.getStatus().equals('2')) {
+            throw new UsernameNotFoundException("用户已注册，但未通过审核!");
+        }
         List<GrantedAuthority> authorities = new ArrayList();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        return new org.springframework.security.core.userdetails.User(name, user.getPassword(),authorities );
+        return new org.springframework.security.core.userdetails.User(name, user.getPassword(), enabled
+                , true, true, true, authorities);
     }
 }

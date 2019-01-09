@@ -76,7 +76,7 @@ const Login = ({
                   </div>
                   <div className="checkbox">
                     <label>
-                      <input type="checkbox"/> 记住登录名
+                      {/*<input type="checkbox"/> 记住登录名*/}
                     </label>
                     <div className="pull-right">
                       <Link to="/reg">没有账号？立即注册</Link>
