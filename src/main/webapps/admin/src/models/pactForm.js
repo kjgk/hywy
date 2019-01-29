@@ -11,10 +11,22 @@ export default modelExtend(model, {
 
   state: {
     pact: {},
+    payType: 0,
+    payMode: undefined,
     execStates: [
       {id: 0, name: '未执行'},
       {id: 1, name: '正在执行'},
       {id: 2, name: '已结清'},
+    ],
+    payTypes: [
+      {id: 0, name: '无收付款'},
+      {id: 1, name: '需收款'},
+      {id: 2, name: '需付款'},
+    ],
+    payModes: [
+      {id: 0, name: '合计金额式'},
+      {id: 1, name: '按月付费式'},
+      {id: 2, name: '实际使用式'},
     ],
   },
 
@@ -34,7 +46,12 @@ export default modelExtend(model, {
           dispatch({
             type: 'updateState',
             payload: {
-              pact: {},
+              pact: {
+                payType: 0,
+                payMode: undefined,
+              },
+              payType: 0,
+              payMode: undefined,
             },
           })
         }
@@ -60,6 +77,8 @@ export default modelExtend(model, {
         type: 'updateState',
         payload: {
           pact,
+          payType: pact.payType,
+          payMode: pact.payMode === null ? undefined : pact.payMode,
         },
       })
     },

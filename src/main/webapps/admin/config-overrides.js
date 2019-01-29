@@ -1,5 +1,5 @@
 const {injectBabelPlugin} = require('react-app-rewired')
-const rewireLess = require('react-app-rewire-less')
+const rewireLess = require('react-app-rewire-less-modules')
 
 
 // @primary-color: #1890ff;                         // 全局主色

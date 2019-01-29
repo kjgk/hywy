@@ -48,6 +48,10 @@ public class PactInfo implements Serializable {
 
     private String remark;
 
+    private Integer payType;
+
+    private Integer payMode;
+
     private Double pactSum;
 
     private Double auditSum;

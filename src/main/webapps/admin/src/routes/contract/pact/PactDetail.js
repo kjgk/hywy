@@ -9,6 +9,7 @@ import DocumentTitle from '../../../compoment/DocumentTitle'
 import PaymentModal from "./PaymentModal"
 import AttachModal from "./AttachModal"
 import {contentPath} from "../../../utils/config"
+import styles from './pact.css'
 
 const Component = ({
                      location, dispatch, pactForm, pactDetail, payment, loading,
@@ -18,6 +19,8 @@ const Component = ({
   const {pact, tabActive, attachList, attachModalVisible, attachProgress} = pactDetail
   const {currentItem, modalVisible, modalType, list: paymentList} = payment
   const {pactNo} = pact
+
+  const showPayment = pact.payType !== 0
 
   const paymentModalProps = {
     item: modalType === 'create' ? {} : currentItem,
@@ -245,44 +248,46 @@ const Component = ({
                     </tr>
                     </tbody>
                   </table>
-                  <table className="table table-bordered table-striped projectAmount">
-                    <tbody>
-                    <tr>
-                      <th>项目名称</th>
-                      <th>金额</th>
-                      <th>审核金额</th>
-                      <th>已付</th>
-                      <th>余额</th>
-                      <th>百分比</th>
-                      <th>执行状态</th>
-                    </tr>
-                    <tr>
-                      <td>{pact.name}</td>
-                      <td className="money">
-                        <NumberFormat value={pact.pactSum} displayType={'text'} thousandSeparator={true} prefix={'￥'}/>
-                      </td>
-                      <td className="money">
-                        <NumberFormat value={pact.auditSum} displayType={'text'} thousandSeparator={true} prefix={'￥'}/>
-                      </td>
-                      <td className="money">
-                        <NumberFormat value={pact.auditSum - pact.balance} displayType={'text'} thousandSeparator={true} prefix={'￥'}/>
-                      </td>
-                      <td className="money">
-                        <NumberFormat value={pact.balance} displayType={'text'} thousandSeparator={true} prefix={'￥'}/>
-                      </td>
-                      <td className="money">
-                        <NumberFormat value={100.0 * (pact.auditSum - pact.balance) / pact.auditSum} decimalScale={2} displayType={'text'} suffix={'%'}/>
-                      </td>
-                      <td>{getExecStateName()}</td>
-                    </tr>
-                    </tbody>
-                  </table>
+                  {
+                    showPayment && <table className="table table-bordered table-striped projectAmount">
+                      <tbody>
+                      <tr>
+                        <th>项目名称</th>
+                        <th>金额</th>
+                        <th>审核金额</th>
+                        <th>已付</th>
+                        <th>余额</th>
+                        <th>百分比</th>
+                        <th>执行状态</th>
+                      </tr>
+                      <tr>
+                        <td>{pact.name}</td>
+                        <td className="money">
+                          <NumberFormat value={pact.pactSum} displayType={'text'} thousandSeparator={true} prefix={'￥'}/>
+                        </td>
+                        <td className="money">
+                          <NumberFormat value={pact.auditSum} displayType={'text'} thousandSeparator={true} prefix={'￥'}/>
+                        </td>
+                        <td className={classNames({money: true, 'payment-status-1': pact.payType === 1, 'payment-status-2': pact.payType === 2})}>
+                          <NumberFormat value={pact.auditSum - pact.balance} displayType={'text'} thousandSeparator={true} prefix={'￥'}/>
+                        </td>
+                        <td className="money">
+                          <NumberFormat value={pact.balance} displayType={'text'} thousandSeparator={true} prefix={'￥'}/>
+                        </td>
+                        <td className="money">
+                          <NumberFormat value={100.0 * (pact.auditSum - pact.balance) / pact.auditSum} decimalScale={2} displayType={'text'} suffix={'%'}/>
+                        </td>
+                        <td>{getExecStateName()}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  }
                 </div>
               </Skeleton>
               <ul className="nav nav-tabs contractDetialTabs">
-                <li className={classNames({active: tabActive === 'payment'})}>
+                {showPayment && <li className={classNames({active: tabActive === 'payment'})}>
                   <a href="javascript:;" onClick={handleShowPayment}>付款信息表</a>
-                </li>
+                </li>}
                 <li className={classNames({active: tabActive === 'attach'})}>
                   <a href="javascript:;" onClick={handleShowAttach}>扫描页</a>
                 </li>
@@ -301,8 +306,8 @@ const Component = ({
                         <th>序号</th>
                         <th>日期</th>
                         <th>凭证</th>
+                        <th>类型</th>
                         <th>金额</th>
-                        <th>备注金额</th>
                         <th>备注</th>
                         <th>操作</th>
                         <th>打印表单</th>
@@ -315,10 +320,10 @@ const Component = ({
                           <td><DateFormatter pattern="Y-MM-DD" value={item.payDate}/></td>
                           <td>{item.warrant}</td>
                           <td>
-                            <NumberFormat value={item.payCount} displayType={'text'} thousandSeparator={true} prefix={'￥'}/>
+                            {item.payType === 1 ? '收款' : '退款'}
                           </td>
                           <td>
-                            <NumberFormat value={item.invCount} displayType={'text'} thousandSeparator={true} prefix={'￥'}/>
+                            <NumberFormat value={item.payCount} displayType={'text'} thousandSeparator={true} prefix={'￥'}/>
                           </td>
                           <td>
                             {item.remark}

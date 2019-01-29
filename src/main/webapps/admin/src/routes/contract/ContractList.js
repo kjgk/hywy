@@ -32,24 +32,27 @@ const Component = ({
     {
       title: '名称',
       dataIndex: 'name',
+      // render: (value) => <div style={{maxWidth: 220, overflow: 'hidden', textOverflow: 'ellipsis'}} title={value}>{value}</div>,
     },
     {
       title: '甲方',
       dataIndex: 'signA',
+      // render: (value) => <div style={{maxWidth: 220, overflow: 'hidden', textOverflow: 'ellipsis'}} title={value}>{value}</div>,
     },
     {
       title: '乙方',
       dataIndex: 'signB',
+      // render: (value) => <div style={{maxWidth: 220, overflow: 'hidden', textOverflow: 'ellipsis'}} title={value}>{value}</div>,
     },
     {
       title: '金额',
       dataIndex: 'pactSum',
-      render: (value) => <NumberFormat value={value} displayType={'text'} thousandSeparator prefix={'￥'} />,
+      render: (value) => <NumberFormat value={value} displayType={'text'} thousandSeparator prefix={'￥'}/>,
     },
     {
       title: '审核',
       dataIndex: 'auditSum',
-      render: (value) => <NumberFormat value={value} displayType={'text'} thousandSeparator prefix={'￥'} />,
+      render: (value) => <NumberFormat value={value} displayType={'text'} thousandSeparator prefix={'￥'}/>,
     },
   ]
 
@@ -75,11 +78,11 @@ const Component = ({
             <div className="col-xs-12 whiteBg">
               <h1 className="productName">{projectInfo.name}</h1>
               <ul className="nav nav-tabs">
-                <li className={classNames({active: currentCategoryId === undefined })}>
+                <li className={classNames({active: currentCategoryId === undefined})}>
                   <Link to={pathname}>全部</Link>
                 </li>
                 {
-                  tabList.map((item) => <li key={item.id} className={classNames({active: currentCategoryId === item.id })}>
+                  tabList.map((item) => <li key={item.id} className={classNames({active: currentCategoryId === item.id})}>
                     <Link to={pathname + '/' + item.id}>{item.name}</Link>
                   </li>)
                 }

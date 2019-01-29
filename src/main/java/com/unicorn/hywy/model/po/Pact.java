@@ -97,4 +97,12 @@ public class Pact {
     private Long compD;
 
     private Character archDate;
+
+    private Integer payType;
+
+    private Integer payMode;
+
+    private Double monthPay;
+
+    private String payContent;
 }

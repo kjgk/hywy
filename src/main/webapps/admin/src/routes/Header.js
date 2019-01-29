@@ -1,7 +1,6 @@
 import React, {Fragment} from 'react'
 import {Link} from 'react-router-dom'
 import classNames from 'classnames'
-import pathToRegexp from 'path-to-regexp'
 
 function Header({
                   currentUser,
@@ -23,7 +22,7 @@ function Header({
             <ul className="nav navbar-nav clearfix navbar-right">
               {
                 menus.map(item =>
-                  <li key={item.path} className={classNames({active: item.path && pathToRegexp(item.path).exec(pathname)})}>
+                  <li key={item.path} className={classNames({active: item.path && pathname.startsWith(item.path)})}>
                     <Link to={item.path || '#'}>
                       {item.name}
                     </Link>

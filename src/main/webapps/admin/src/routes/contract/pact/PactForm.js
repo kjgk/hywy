@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import {Link} from 'react-router-dom'
 import {connect} from 'dva'
-import {Form, DatePicker, Button} from 'antd'
+import {Form, DatePicker, Button, Radio} from 'antd'
 import moment from 'moment'
 import SimpleSelect from '../../../compoment/SimpleSelect'
 import ProjectSelect from '../../../compoment/ProjectSelect'
@@ -12,7 +12,7 @@ import DocumentTitle from '../../../compoment/DocumentTitle'
 import NumberFormat from 'react-number-format'
 import {getMoneyValue, getTextInitialValue} from "../../../utils/util"
 
-const {RangePicker} = DatePicker;
+const RadioGroup = Radio.Group
 
 const Component = ({
                      location, dispatch, model, loading,
@@ -25,7 +25,7 @@ const Component = ({
                      },
                    }) => {
 
-  const {execStates, pact} = model
+  const {execStates, payTypes, payModes, pact, payType, payMode} = model
   const isEdit = pact.pactNo !== undefined
 
   let errors = {}
@@ -36,7 +36,7 @@ const Component = ({
       if (errors) {
         return
       }
-      const {auditSum, pactSum, signDate, signDate2, ...values} = getFieldsValue()
+      const {auditSum, pactSum, monthPay, signDate, signDate2, ...values} = getFieldsValue()
       dispatch({
         type: 'pactForm/save',
         payload: {
@@ -45,8 +45,29 @@ const Component = ({
           signDate2: signDate2 && signDate2.format('Y-MM-DD'),
           auditSum: getMoneyValue(auditSum),
           pactSum: getMoneyValue(pactSum),
+          monthPay: getMoneyValue(monthPay),
         }
       })
+    })
+  }
+
+  const onChangePayType = ({target}) => {
+    const {value: payType} = target
+    dispatch({
+      type: 'pactForm/updateState',
+      payload: {
+        payType,
+        payMode: payType === 0 ? undefined : (payMode || 0),
+      }
+    })
+  }
+
+  const onChangePayMode = ({target}) => {
+    dispatch({
+      type: 'pactForm/updateState',
+      payload: {
+        payMode: target.value,
+      }
     })
   }
 
@@ -221,7 +242,7 @@ const Component = ({
                           <div className="col-sm-7">
                             {getFieldDecorator('subject', {
                               initialValue: getTextInitialValue(pact.subject),
-                            })(<textarea className="form-control" rows="5" placeholder="请输入主题词" />)}
+                            })(<textarea className="form-control" rows="5" placeholder="请输入主题词"/>)}
                           </div>
                         </div>
                         <div className="form-group">
@@ -229,7 +250,7 @@ const Component = ({
                           <div className="col-sm-7">
                             {getFieldDecorator('remark', {
                               initialValue: getTextInitialValue(pact.remark),
-                            })(<textarea className="form-control" rows="5" placeholder="请输入备注" />)}
+                            })(<textarea className="form-control" rows="5" placeholder="请输入备注"/>)}
                           </div>
                         </div>
                       </div>
@@ -241,10 +262,24 @@ const Component = ({
                         <div className="form-group">
                           <label className="col-sm-4 control-label"/>
                           <div className="col-sm-8">
-                            <label><input type="checkbox"/> 付款付讫</label>
+                            {getFieldDecorator('payType', {
+                              initialValue: payType,
+                            })(<RadioGroup onChange={onChangePayType}>{
+                              payTypes.map((item) => <Radio key={item.id} value={item.id}>{item.name}</Radio>)
+                            }</RadioGroup>)}
                           </div>
                         </div>
-                        <div className={classNames({'form-group': true, 'has-error': !!getFieldError('pactSum')})}>
+                        {payType !== 0 && <div className="form-group">
+                          <label className="col-sm-4 control-label"/>
+                          <div className="col-sm-8">
+                            {getFieldDecorator('payMode', {
+                              initialValue: payMode,
+                            })(<RadioGroup buttonStyle="solid" onChange={onChangePayMode}>{
+                              payModes.map((item) => <Radio.Button key={item.id} value={item.id}>{item.name}</Radio.Button>)
+                            }</RadioGroup>)}
+                          </div>
+                        </div>}
+                        {(payMode === 0 || payMode === 1) && <div className={classNames({'form-group': true, 'has-error': !!getFieldError('pactSum')})}>
                           <label className="col-sm-4 control-label">金额：</label>
                           <div className="col-sm-8">
                             {getFieldDecorator('pactSum', {
@@ -256,8 +291,8 @@ const Component = ({
                               {(errors.pactSum = getFieldError('pactSum')) ? errors.pactSum.join(',') : null}
                             </span>
                           </div>
-                        </div>
-                        <div className={classNames({'form-group': true, 'has-error': !!getFieldError('auditSum')})}>
+                        </div>}
+                        {(payMode === 0 || payMode === 1) && <div className={classNames({'form-group': true, 'has-error': !!getFieldError('auditSum')})}>
                           <label className="col-sm-4 control-label">审核金额：</label>
                           <div className="col-sm-8">
                             {getFieldDecorator('auditSum', {
@@ -269,7 +304,32 @@ const Component = ({
                               {(errors.auditSum = getFieldError('auditSum')) ? errors.auditSum.join(',') : null}
                             </span>
                           </div>
-                        </div>
+                        </div>}
+                        {payMode === 1 && <div className={classNames({'form-group': true, 'has-error': !!getFieldError('monthPay')})}>
+                          <label className="col-sm-4 control-label">月租金：</label>
+                          <div className="col-sm-8">
+                            {getFieldDecorator('monthPay', {
+                              initialValue: pact.monthPay,
+                              rules: [{required: true, message: '月租金不能为空'}],
+                            })(<NumberFormat className="form-control" placeholder="请输入" allowNegative={false} decimalScale={2} thousandSeparator={true}
+                                             prefix={'￥'}/>)}
+                            <span className="help-block">
+                              {(errors.monthPay = getFieldError('monthPay')) ? errors.monthPay.join(',') : null}
+                            </span>
+                          </div>
+                        </div>}
+                        {payMode === 2 && <div className={classNames({'form-group': true, 'has-error': !!getFieldError('payContent')})}>
+                          <label className="col-sm-4 control-label">付款说明：</label>
+                          <div className="col-sm-8">
+                            {getFieldDecorator('payContent', {
+                              initialValue: pact.payContent,
+                              rules: [{required: true, max: 50, message: '付款说明不能为空，并且长度限制50字之内'}],
+                            })(<textarea type="text" className="form-control" rows={3} placeholder="请输入付款说明"/>)}
+                            <span className="help-block">
+                              {(errors.payContent = getFieldError('payContent')) ? errors.payContent.join(',') : null}
+                            </span>
+                          </div>
+                        </div>}
                       </div>
                     </div>
                     <div className="form-group contractBtnGroup">

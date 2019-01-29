@@ -109,6 +109,10 @@ public class ContractService {
                     current.setExecState(pact.getExecState());
                     current.setSubject(pact.getSubject());
                     current.setRemark(pact.getRemark());
+                    current.setPayType(pact.getPayType());
+                    current.setPayMode(pact.getPayMode());
+                    current.setMonthPay(pact.getMonthPay());
+                    current.setPayContent(pact.getPayContent());
 
                     // 校验合同编号是否重复
                     if (pactRepository.exists(QPact.pact.serialNo.eq(pact.getSerialNo())
@@ -118,16 +122,23 @@ public class ContractService {
                     }
 
                     // 校验并更新付款信息
-                    Double payTotal = getPactPayTotal(pact.getPactNo());
-                    if (pact.getAuditSum() == null && payTotal > 0) {
-                        throw new ServiceException("审核金额不能为空！");
+                    if (current.getPayType() == 0 || current.getPayMode() == 2) {
+                        // 如果无收付款或者付款方式为实际使用式，则清空付款信息
+                        current.setAuditSum(null);
+                        current.setPactSum(null);
+                        current.setBalance(null);
+                    } else {
+                        Double payTotal = getPactPayTotal(pact.getPactNo());
+                        if (pact.getAuditSum() == null && payTotal != 0) {
+                            throw new ServiceException("审核金额不能为空！");
+                        }
+                        if (pact.getAuditSum() != null && payTotal > pact.getAuditSum()) {
+                            throw new ServiceException("审核金额不能小于已付金额！");
+                        }
+                        current.setPactSum(pact.getPactSum());
+                        current.setAuditSum(pact.getAuditSum());
+                        current.setBalance(pact.getAuditSum() - payTotal);
                     }
-                    if (pact.getAuditSum() != null && payTotal > pact.getAuditSum()) {
-                        throw new ServiceException("审核金额不能小于已付金额！");
-                    }
-                    current.setPactSum(pact.getPactSum());
-                    current.setAuditSum(pact.getAuditSum());
-                    current.setBalance(pact.getAuditSum() - payTotal);
 
                     // 更新甲乙丙丁方
                     if (!current.getCompA().equals(pact.getCompA())) {
@@ -181,6 +192,8 @@ public class ContractService {
         pactInfo.setName(pact.getName());
         pactInfo.setSubject(pact.getSubject());
         pactInfo.setRemark(pact.getRemark());
+        pactInfo.setPayType(pact.getPayType());
+        pactInfo.setPayMode(pact.getPayMode());
         pactInfo.setSignA(pact.getSignA());
         pactInfo.setSignB(pact.getSignB());
         pactInfo.setSignD(pact.getSignC());
@@ -243,13 +256,15 @@ public class ContractService {
 
         payment.setPayNo(idWorker.nextId());
         Payment current = paymentRepository.save(payment);
+        Pact pact = getPact(current.getPactNo());
+
+        if (pact.getPayType() == 0 || pact.getPayMode() == 2) {
+            return current;
+        }
 
         // 当前已经存在的付款
         Double payTotal = getPactPayTotal(payment.getPactNo());
-
-        Pact pact = getPact(current.getPactNo());
-        pact.setBalance(pact.getAuditSum() - (payTotal == null ? 0 : payTotal) - current.getPayCount());
-
+        pact.setBalance(pact.getAuditSum() - payTotal - (current.getPayType() == 1 ? 1 : -1) * current.getPayCount());
         if (pact.getBalance() < 0) {
             throw new ServiceException("付款金额不能超过余额！");
         }
@@ -260,15 +275,19 @@ public class ContractService {
 
         return paymentRepository.findById(payment.getPayNo())
                 .map(current -> {
-                    Double currentPayCount = current.getPayCount();
+                    Double currentPayCount = (current.getPayType() == 1 ? 1 : -1) * current.getPayCount();
                     current.setPayCount(payment.getPayCount());
                     current.setInvCount(payment.getInvCount());
                     current.setPayDate(payment.getPayDate());
                     current.setRemark(payment.getRemark());
                     current.setWarrant(payment.getWarrant());
-
+                    current.setPayType(payment.getPayType());
                     Pact pact = getPact(current.getPactNo());
-                    pact.setBalance(pact.getBalance() + (currentPayCount - current.getPayCount()));
+                    if (pact.getPayType() == 0 || pact.getPayMode() == 2) {
+                        return current;
+                    }
+
+                    pact.setBalance(pact.getBalance() + (currentPayCount - (current.getPayType() == 1 ? 1 : -1) * current.getPayCount()));
                     if (pact.getBalance() < 0) {
                         throw new ServiceException("付款金额不能超过余额！");
                     }
@@ -282,7 +301,7 @@ public class ContractService {
         Payment payment = paymentRepository.findById(id).orElse(null);
         if (payment != null) {
             Pact pact = getPact(payment.getPactNo());
-            pact.setBalance(pact.getBalance() + payment.getPayCount());
+            pact.setBalance(pact.getBalance() + (payment.getPayType() == 1 ? 1 : -1) * payment.getPayCount());
             paymentRepository.delete(payment);
         }
     }
@@ -398,11 +417,12 @@ public class ContractService {
     }
 
     private Double getPactPayTotal(Long pactNo) {
-        Double total = jdbcTemplate.queryForObject("select sum(pay_count) from payment where pact_no = ?", Double.class, pactNo);
-        if (total == null) {
-            total = 0d;
-        }
-        return total;
+
+        Double total1 = jdbcTemplate.queryForObject("select sum(pay_count) from payment where pay_type = ? and pact_no = ?", Double.class, 1, pactNo);
+        Double total2 = jdbcTemplate.queryForObject("select sum(pay_count) from payment where pay_type = ? and pact_no = ?", Double.class, 2, pactNo);
+        total1 = total1 == null ? 0 : total1;
+        total2 = total2 == null ? 0 : total2;
+        return total1 - total2;
     }
 
     public Payment getPayment(Long id) {

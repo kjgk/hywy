@@ -1,0 +1,42 @@
+server:
+  port: 8090
+  servlet:
+    context-path: /hywy
+
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.171.151:3306/hywy
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    show-sql: true
+  session:
+    store-type: redis
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true
+  redis:
+    host: 192.168.171.102
+    password: 123456
+    database: 7
+
+environment:
+  path:
+    upload: D:/upload/hywy
+    temp: D:/temp
+
+  # 秒滴短信服务 http://www.miaodiyun.com
+  sms:
+    url: https://api.miaodiyun.com/20150822/industrySMS/sendSMS
+    account_sid: 824daecfe8fa49cf946186afac76650b
+    auth_token: 78f66c22f6894481a6b1a54fe5d52f71
+    template_id: 1170604879

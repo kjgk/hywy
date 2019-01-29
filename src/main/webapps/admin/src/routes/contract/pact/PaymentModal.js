@@ -1,9 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
 import NumberFormat from 'react-number-format'
-import {Form, DatePicker, Modal} from 'antd'
+import {Form, DatePicker, Modal, Radio} from 'antd'
 import moment from 'moment'
 import {getMoneyValue, getTextInitialValue} from "../../../utils/util"
+
+const RadioGroup = Radio.Group
 
 const modal = ({
                  item = {},
@@ -50,6 +52,17 @@ const modal = ({
       {...modalOpts}
     >
       <form className="form-horizontal" onSubmit={modalOpts.onOk}>
+        <div className="form-group">
+          <label className="col-sm-3 control-label"></label>
+          <div className="col-sm-8">
+            {getFieldDecorator('payType', {
+              initialValue: item.payType || 1,
+            })(<RadioGroup>
+              <Radio key={1} value={1}>收款</Radio>
+              <Radio key={2} value={2}>退款</Radio>
+            </RadioGroup>)}
+          </div>
+        </div>
         <div className={classNames({'form-group': true, 'has-error': !!getFieldError('payDate')})}>
           <label className="col-sm-3 control-label">日期：</label>
           <div className="col-sm-8">

@@ -17,6 +17,12 @@ public class Payment {
 
     private Date payDate;
 
+    /**
+     * 1: 收款
+     * 2：退款
+     */
+    private Integer payType;
+
     private Double payCount;
 
     private String warrant;

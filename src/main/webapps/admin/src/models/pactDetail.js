@@ -11,7 +11,7 @@ export default modelExtend(model, {
 
   state: {
     pact: {},
-    tabActive: 'payment',
+    tabActive: undefined,
     attachModalVisible: false,
     attachList: [],
     attachProgress: undefined,
@@ -50,6 +50,7 @@ export default modelExtend(model, {
             type: 'updateState',
             payload: {
               pact: {},
+              tabActive: undefined,
               attachModalVisible: false,
               attachList: [],
               attachProgress: undefined,
@@ -64,10 +65,12 @@ export default modelExtend(model, {
   effects: {
     * getPactDetail({payload = {}}, {call, put, select}) {
       let pact = yield call(service.getPactDetail, payload.pactNo)
+      let tabActive = pact.payType !== 0 ? 'payment' : 'attach'
       yield put({
         type: 'updateState',
         payload: {
           pact,
+          tabActive,
         },
       })
     },
