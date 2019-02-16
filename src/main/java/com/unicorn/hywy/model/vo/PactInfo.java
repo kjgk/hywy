@@ -16,6 +16,8 @@ public class PactInfo implements Serializable {
 
     private String serialNo;
 
+    private String serialCode;
+
     private String pactNumber;
 
     private String name;
@@ -38,6 +40,8 @@ public class PactInfo implements Serializable {
 
     private Date signDate2;
 
+    private Date signDate3;
+
     private String transactor1;
 
     private String transactor2;
@@ -47,6 +51,8 @@ public class PactInfo implements Serializable {
     private String subject;
 
     private String remark;
+
+    private String updateNote;
 
     private Integer payType;
 

@@ -102,17 +102,21 @@ public class ContractService {
                 .map(current -> {
                     current.setName(pact.getName());
                     current.setSerialNo(pact.getSerialNo());
+                    current.setSerialCode(pact.getSerialCode());
                     current.setSignDate(pact.getSignDate());
                     current.setSignDate2(pact.getSignDate2());
+                    current.setSignDate3(pact.getSignDate3());
                     current.setTransactor1(pact.getTransactor1());
                     current.setTransactor2(pact.getTransactor2());
                     current.setExecState(pact.getExecState());
                     current.setSubject(pact.getSubject());
                     current.setRemark(pact.getRemark());
+                    current.setUpdateNote(pact.getUpdateNote());
                     current.setPayType(pact.getPayType());
                     current.setPayMode(pact.getPayMode());
                     current.setMonthPay(pact.getMonthPay());
                     current.setPayContent(pact.getPayContent());
+                    current.setPrePercent(pact.getPrePercent());
 
                     // 校验合同编号是否重复
                     if (pactRepository.exists(QPact.pact.serialNo.eq(pact.getSerialNo())
@@ -122,7 +126,7 @@ public class ContractService {
                     }
 
                     // 校验并更新付款信息
-                    if (current.getPayType() == 0 || current.getPayMode() == 2) {
+                    if (current.getPayType() == 0 || current.getPayMode() == 0) {
                         // 如果无收付款或者付款方式为实际使用式，则清空付款信息
                         current.setAuditSum(null);
                         current.setPactSum(null);
@@ -185,6 +189,7 @@ public class ContractService {
         PactInfo pactInfo = new PactInfo();
         pactInfo.setPactNo(pact.getPactNo());
         pactInfo.setSerialNo(pact.getSerialNo());
+        pactInfo.setSerialCode(pact.getSerialCode());
         pactInfo.setPactNumber(pact.getPactNumber());
         pactInfo.setAuditSum(pact.getAuditSum());
         pactInfo.setPactSum(pact.getPactSum());
@@ -192,6 +197,7 @@ public class ContractService {
         pactInfo.setName(pact.getName());
         pactInfo.setSubject(pact.getSubject());
         pactInfo.setRemark(pact.getRemark());
+        pactInfo.setUpdateNote(pact.getUpdateNote());
         pactInfo.setPayType(pact.getPayType());
         pactInfo.setPayMode(pact.getPayMode());
         pactInfo.setSignA(pact.getSignA());
@@ -200,6 +206,7 @@ public class ContractService {
         pactInfo.setSignD(pact.getSignD());
         pactInfo.setSignDate(pact.getSignDate());
         pactInfo.setSignDate2(pact.getSignDate2());
+        pactInfo.setSignDate3(pact.getSignDate3());
         pactInfo.setExecState(pact.getExecState());
         pactInfo.setTransactor1(pact.getTransactor1());
         pactInfo.setTransactor2(pact.getTransactor2());
@@ -258,7 +265,7 @@ public class ContractService {
         Payment current = paymentRepository.save(payment);
         Pact pact = getPact(current.getPactNo());
 
-        if (pact.getPayType() == 0 || pact.getPayMode() == 2) {
+        if (pact.getPayType() == 0 || pact.getPayMode() == 0) {
             return current;
         }
 
@@ -283,7 +290,7 @@ public class ContractService {
                     current.setWarrant(payment.getWarrant());
                     current.setPayType(payment.getPayType());
                     Pact pact = getPact(current.getPactNo());
-                    if (pact.getPayType() == 0 || pact.getPayMode() == 2) {
+                    if (pact.getPayType() == 0 || pact.getPayMode() == 0) {
                         return current;
                     }
 

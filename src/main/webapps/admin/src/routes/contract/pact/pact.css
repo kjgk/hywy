@@ -5,3 +5,7 @@
 .payment-status-2 {
   color: #dd3d40;
 }
+
+.help-block {
+  white-space: nowrap !important;
+}

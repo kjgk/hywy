@@ -5,6 +5,13 @@ export function getMoneyValue(text) {
   return text
 }
 
+export function getPercentValue(text) {
+  if (typeof(text) === 'string') {
+      return parseFloat(text.replace('%', '').split(',').join(''))
+  }
+  return text
+}
+
 export function getTextInitialValue(value) {
   if (value === null || value === undefined) {
     return ''

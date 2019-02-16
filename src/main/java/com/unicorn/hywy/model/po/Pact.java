@@ -29,6 +29,9 @@ public class Pact {
     // 合同编号，用户输入
     private String serialNo;
 
+    // 分类编号，用户输入
+    private String serialCode;
+
     // 合同代码，系统生成
     private String pactNumber;
 
@@ -49,6 +52,9 @@ public class Pact {
 
     @Column(name = "sign_date2")
     private Date signDate2;
+
+    @Column(name = "sign_date3")
+    private Date signDate3;
 
     private String name;
 
@@ -75,6 +81,8 @@ public class Pact {
     private Character payFinish;
 
     private String remark;
+
+    private String updateNote;
 
     private String  queryNo;
 
@@ -105,4 +113,6 @@ public class Pact {
     private Double monthPay;
 
     private String payContent;
+
+    private Double prePercent;
 }

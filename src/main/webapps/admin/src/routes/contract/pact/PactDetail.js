@@ -9,7 +9,7 @@ import DocumentTitle from '../../../compoment/DocumentTitle'
 import PaymentModal from "./PaymentModal"
 import AttachModal from "./AttachModal"
 import {contentPath} from "../../../utils/config"
-import styles from './pact.css'
+import './pact.css'
 
 const Component = ({
                      location, dispatch, pactForm, pactDetail, payment, loading,
@@ -211,26 +211,28 @@ const Component = ({
                     <tr>
                       <th>合同编号：</th>
                       <td>{pact.serialNo}</td>
-                      <th>序号：</th>
+                      <th>
+                        {/*序号：*/}
+                      </th>
                       <td></td>
                     </tr>
                     <tr>
                       <th>名称：</th>
                       <td>{pact.name}</td>
-                      <th>主题词：</th>
+                      <th>主要内容：</th>
                       <td>{pact.subject}</td>
                     </tr>
                     <tr>
                       <th>甲方：</th>
                       <td>{pact.signA}</td>
-                      <th>备注：</th>
+                      <th>履行评价：</th>
                       <td>{pact.remark}</td>
                     </tr>
                     <tr>
                       <th>乙方：</th>
                       <td>{pact.signB}</td>
-                      <th></th>
-                      <td></td>
+                      <th>变更、解除、纠纷情况</th>
+                      <td>{pact.updateNote}</td>
                     </tr>
                     <tr>
                       <th>日期：</th>
