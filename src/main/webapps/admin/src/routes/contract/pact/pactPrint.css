@@ -1,0 +1,113 @@
+body {
+  font-family: "SimSun";
+  font-size: 14px;
+  background: #FFFFFF;
+  padding: 15px;
+}
+
+h4 {
+  font-size: 26px;
+  margin: 0;
+  text-align: center;
+  font-weight: 800;
+  font-family: "MingLiU";
+}
+
+.nodate {
+  position: relative;
+  height: 24px;
+  font-size: 16px;
+  margin-top: 20px
+}
+
+.nodate table {
+  position: absolute;
+  right: 0;
+}
+
+.table table {
+  border-collapse: collapse;
+}
+
+.table td,
+.table th {
+  padding: 6px 5px;
+  border-color: #000;
+  text-align: center;
+  color: #666;
+}
+.table th{
+  font-weight: 400;
+}
+.subTable td {
+  text-align: center;
+}
+.red{
+  color: #ff0000;
+}
+.money {
+  text-align: right !important;
+  padding-right: 70px !important;
+}
+
+.name {
+  text-align: right;
+  padding: 10px 20px;
+}
+.formBox{
+  max-width: 960px;
+  margin: 0 auto;
+}
+.formBox span{
+  display: inline-block;
+  color: #000;
+  font-weight: 800;
+}
+.content{
+  width:250px;
+  vertical-align: top;
+  text-align: left !important;
+  white-space: pre-wrap;
+}
+.content > b{
+  font-weight: 400;
+}
+.content > p{
+  margin: 5px 2px
+}
+.width50{
+  width: 50px;
+  /*				background: #ff8800;*/
+}
+.width70{
+  width: 70px
+}
+.width100{
+  width: 100px
+}
+.width150{
+  width: 150px
+}
+.width200{
+  width: 200px
+}
+.flexWraper{
+  display: flex;
+}
+.flexWraper > div{
+  flex: 1
+}
+.flright{
+  position: absolute;
+  right: 6px;
+  top: 6px;
+}
+.methodTitle{
+  position: relative;
+  font-weight: 800 !important;
+  padding-right: 150px !important;
+  font-family: "MingLiU";
+}
+.checked {
+  font-weight: 800;
+}

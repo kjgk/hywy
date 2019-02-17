@@ -130,23 +130,22 @@ const Component = ({
                               {getFieldDecorator('serialNo', {
                                 initialValue: getTextInitialValue(pact.serialNo),
                                 rules: [
-                                  {required: true, pattern: /^\d{1,16}$/, message: '合同编号不能为空，并且长度不能大于16位的数字'},
+                                  {required: true, pattern: /^\d{1,16}$/, message: '不能为空，长度不能大于16位的数字'},
                                 ],
-                              })(<input type="text" className="form-control" placeholder="请输入"/>)}
+                              })(<input type="text" className="form-control" placeholder="合同编号"/>)}
                               <span className="help-block">
                               {(errors.serialNo = getFieldError('serialNo')) ? errors.serialNo.join(',') : null}
                             </span>
                             </div>
                           </div>
                           <div className={classNames({'has-error': !!getFieldError('serialCode')})}>
-                            <label className="col-sm-2 control-label">分类编号：</label>
-                            <div className="col-sm-3">
+                            <div className="col-sm-5">
                               {getFieldDecorator('serialCode', {
                                 initialValue: getTextInitialValue(pact.serialCode),
                                 rules: [
-                                  {required: true, message: '分类编号不能为空'},
+                                  {required: true, pattern: /^\d{1,10}$/, message: '不能为空，长度不能大于10位的数字'},
                                 ],
-                              })(<input type="text" className="form-control" placeholder="请输入"/>)}
+                              })(<input type="text" className="form-control" placeholder="分类编号"/>)}
                               <span className="help-block">
                               {(errors.serialCode = getFieldError('serialCode')) ? errors.serialCode.join(',') : null}
                             </span>
@@ -363,7 +362,7 @@ const Component = ({
                             {getFieldDecorator('payContent', {
                               initialValue: pact.payContent,
                               rules: [{required: true, max: 50, message: '付款说明不能为空，并且长度限制50字之内'}],
-                            })(<textarea type="text" className="form-control" rows={3} placeholder="请输入付款说明"/>)}
+                            })(<textarea className="form-control" rows={3} placeholder="请输入付款说明"/>)}
                             <span className="help-block">
                               {(errors.payContent = getFieldError('payContent')) ? errors.payContent.join(',') : null}
                             </span>
@@ -375,7 +374,7 @@ const Component = ({
                             {getFieldDecorator('prePercent', {
                               initialValue: pact.prePercent,
                               rules: [{required: true, message: '预收付不能为空'}],
-                            })(<NumberFormat className="form-control" placeholder="%" allowNegative={false} decimalScale={2} thousandSeparator={true}
+                            })(<NumberFormat className="form-control" placeholder="%" allowNegative={false} decimalScale={0} thousandSeparator={true}
                                              suffix={'%'} />)}
                             <span className="help-block">
                               {(errors.prePercent = getFieldError('prePercent')) ? errors.prePercent.join(',') : null}

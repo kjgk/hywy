@@ -62,7 +62,7 @@ public class ContractController extends BaseController {
     @GetMapping("/pact/{id}/detail")
     PactInfo getPactInfo(@PathVariable Long id) {
 
-        return contractService.getPactInfo(id);
+        return contractService.getPactInfo(id, true);
     }
 
     @PostMapping("/payment")

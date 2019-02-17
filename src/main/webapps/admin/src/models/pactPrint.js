@@ -1,22 +1,23 @@
-import service from '../services/payment'
+import service from '../services/contract'
 import {model} from './base'
 import modelExtend from 'dva-model-extend'
 
 export default modelExtend(model, {
-  namespace: 'paymentPrint',
+  namespace: 'pactPrint',
   state: {
-    payment: {}
+    pact: {},
+    accCodeList: []
   },
 
   subscriptions: {
     setup({dispatch, history}) {
       history.listen((location) => {
-        if (/\/contract\/payment\/\d+\/preview$/.test(location.pathname)) {
+        if (/\/contract\/pact\/\d+\/preview$/.test(location.pathname)) {
           let paths = location.pathname.split('/')
           dispatch({
             type: 'query',
             payload: {
-              payNo: paths[3],
+              pactNo: paths[3],
             },
           })
         } else {
@@ -27,10 +28,14 @@ export default modelExtend(model, {
 
   effects: {
     * query({payload}, {put, call, select}) {
-      const payment = yield call(service.getPaymentInfo, payload.payNo)
+      const pact = yield call(service.getPactDetail, payload.pactNo)
+      const accCodeList = yield call(service.getAccCodeList)
       yield put({
         type: 'updateState',
-        payload: {payment},
+        payload: {
+          pact,
+          accCodeList,
+        },
       })
     },
   },

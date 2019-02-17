@@ -196,8 +196,10 @@ const Component = ({
               <Skeleton loading={loading.effects[`pactDetail/getPactDetail`]}>
                 <h2 className="contractDetailTitle">
                   {pact.projectName + ' ' + pact.name}
-                  <Link to={`/contract/pact/edit/${pactNo}`} className="btnEdit">
+                  <Link to={`/contract/pact/${pactNo}/edit`} className="btnEdit">
                     <i className="fa fa-edit"/> 编辑项目 </Link>
+                  <Link to={`/contract/pact/${pactNo}/preview`} target="_blank" className="btnEdit">
+                    <i className="fa fa-print"/> 打印项目 </Link>
                 </h2>
                 <div className="contractDetial">
                   <table className="table table-bordered table-striped">
@@ -210,7 +212,7 @@ const Component = ({
                     </tr>
                     <tr>
                       <th>合同编号：</th>
-                      <td>{pact.serialNo}</td>
+                      <td>{pact.serialNo + ' ' + (pact.serialCode || '')}</td>
                       <th>
                         {/*序号：*/}
                       </th>
@@ -335,7 +337,7 @@ const Component = ({
                             <a onClick={() => handleDeletePayment(item)}><i className="fa fa-trash-o"/>删除</a>
                           </td>
                           <td className="operateBtn">
-                            <Link to={`/contract/payment/${item.payNo}`} target="_blank"><i className="fa fa-wpforms"/>付款审核表</Link>
+                            <Link to={`/contract/payment/${item.payNo}/preview`} target="_blank"><i className="fa fa-print"/>付款审核表</Link>
                           </td>
                         </tr>
                       )}

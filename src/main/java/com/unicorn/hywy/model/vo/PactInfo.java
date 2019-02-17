@@ -1,11 +1,10 @@
 package com.unicorn.hywy.model.vo;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -64,4 +63,23 @@ public class PactInfo implements Serializable {
 
     private Double balance;
 
+    private Double monthPay;
+
+    private String payContent;
+
+    private Double prePercent;
+
+    private List<PaymentTotal> payments;
+
+    @Getter
+    @Setter
+    @ToString
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PaymentTotal implements Serializable {
+
+        private String year;
+
+        private Double total;
+    }
 }

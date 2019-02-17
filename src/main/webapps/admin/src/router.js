@@ -29,7 +29,7 @@ const menus = [
     component: () => import('./routes/contract/pact/PactForm'),
   },
   {
-    path: '/contract/pact/edit/:pactNo',
+    path: '/contract/pact/:pactNo/edit',
     models: () => [import('./models/pactForm')],
     component: () => import('./routes/contract/pact/PactForm'),
   },
@@ -39,7 +39,12 @@ const menus = [
     component: () => import('./routes/contract/pact/PactDetail'),
   },
   {
-    path: '/contract/payment/:payNo',
+    path: '/contract/pact/:pactNo/preview',
+    models: () => [import('./models/pactPrint')],
+    component: () => import('./routes/contract/pact/PactPrint'),
+  },
+  {
+    path: '/contract/payment/:payNo/preview',
     models: () => [import('./models/paymentPrint')],
     component: () => import('./routes/contract/pact/PaymentPrint'),
   },

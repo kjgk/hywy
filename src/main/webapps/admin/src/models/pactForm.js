@@ -39,8 +39,8 @@ export default modelExtend(model, {
     setup({dispatch, history}) {
       history.listen((location) => {
         const {pathname} = location
-        if (/\/contract\/pact\/edit\/\d+$/.test(pathname)) {
-          const pactNo = pathname.split('/')[4]
+        if (/\/contract\/pact\/\d+\/edit$/.test(pathname)) {
+          const pactNo = pathname.split('/')[3]
           dispatch({
             type: 'getPact',
             payload: {

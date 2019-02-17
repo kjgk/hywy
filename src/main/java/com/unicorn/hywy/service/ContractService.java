@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -183,7 +184,7 @@ public class ContractService {
         // pactRepository.deleteById(id);
     }
 
-    public PactInfo getPactInfo(Long id) {
+    public PactInfo getPactInfo(Long id, boolean payments) {
 
         Pact pact = getPact(id);
         PactInfo pactInfo = new PactInfo();
@@ -213,13 +214,29 @@ public class ContractService {
         pactInfo.setCategoryNo(pact.getType1());
         pactInfo.setProjectNo(pact.getType2());
         pactInfo.setProjectName(getProject(pact.getType2()).getName());
+        pactInfo.setMonthPay(pact.getMonthPay());
+        pactInfo.setPayContent(pact.getPayContent());
+        pactInfo.setPrePercent(pact.getPrePercent());
+
+        if (payments) {
+            pactInfo.setPayments(
+                    jdbcTemplate.queryForList("select DATE_FORMAT(PAY_DATE, '%Y') year,\n" +
+                            "sum(case PAY_TYPE when 1 then PAY_COUNT when 2 then -PAY_COUNT end) total \n" +
+                            "from payment\n" +
+                            "where pact_no = ?\n" +
+                            "group by DATE_FORMAT(PAY_DATE, '%Y')\n" +
+                            "order by DATE_FORMAT(PAY_DATE, '%Y')", pact.getPactNo())
+                            .stream().map(data -> new PactInfo.PaymentTotal((String) data.get("year"), ((BigDecimal) data.get("total")).doubleValue()))
+                            .collect(Collectors.toList())
+            );
+        }
         return pactInfo;
     }
 
     public PaymentInfo getPaymentInfo(Long id) {
 
         Payment payment = getPayment(id);
-        PactInfo pactInfo = getPactInfo(payment.getPactNo());
+        PactInfo pactInfo = getPactInfo(payment.getPactNo(), false);
         PaymentInfo paymentInfo = new PaymentInfo();
         paymentInfo.setPactNo(pactInfo.getPactNo());
         paymentInfo.setSerialNo(pactInfo.getSerialNo());
@@ -325,7 +342,7 @@ public class ContractService {
     public void createPactAttaches(PactAttaches pactAttaches) {
 
         for (FileUploadInfo fileUploadInfo : pactAttaches.getFileList()) {
-            String uploadFilename = "/pact" + "/" + String.valueOf(idWorker.nextId());
+            String uploadFilename = "/pact" + "/" + idWorker.nextId();
             File file = new File(environmentService.getTempPath() + "/" + fileUploadInfo.getTempFilename());
             try {
                 FileUtils.copyFile(file, new File(environmentService.getUploadPath() + uploadFilename));

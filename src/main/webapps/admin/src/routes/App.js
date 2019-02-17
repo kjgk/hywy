@@ -32,7 +32,8 @@ function App({
     </div>)
   }
 
-  if (/\/contract\/payment\/\d+$/.test(pathname)) {
+  if (/\/contract\/payment\/\d+\/preview$/.test(pathname)
+    || /\/contract\/pact\/\d+\/preview$/.test(pathname)) {
     return (<div>
       {children}
     </div>)
