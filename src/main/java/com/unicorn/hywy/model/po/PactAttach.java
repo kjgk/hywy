@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 import java.util.Date;
 
 @Data
@@ -23,7 +22,4 @@ public class PactAttach {
     private Date uploadTime;
 
     private Character status;
-
-    @Transient
-    private String link;
 }

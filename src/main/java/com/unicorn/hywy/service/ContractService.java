@@ -40,8 +40,6 @@ public class ContractService {
 
     private final EnvironmentService environmentService;
 
-    private final AttachmentService attachmentService;
-
     private final JdbcTemplate jdbcTemplate;
 
     private final SnowflakeIdWorker idWorker;
@@ -56,7 +54,6 @@ public class ContractService {
             , PaymentRepository paymentRepository
             , PactAttachRepository pactAttachRepository
             , EnvironmentService environmentService
-            , AttachmentService attachmentService
     ) {
         this.idWorker = idWorker;
         this.jdbcTemplate = jdbcTemplate;
@@ -67,7 +64,6 @@ public class ContractService {
         this.paymentRepository = paymentRepository;
         this.pactAttachRepository = pactAttachRepository;
         this.environmentService = environmentService;
-        this.attachmentService = attachmentService;
     }
 
     /**
@@ -371,15 +367,18 @@ public class ContractService {
                 .orElse(null);
     }
 
+    public PactAttach getPactAttach(Long id) {
+
+        return pactAttachRepository.findById(id).orElse(null);
+    }
+
     public Page<PactAttach> queryPactAttach(Long pactNo, Pageable page) {
 
         Page<PactAttach> result = pactAttachRepository.findAll(QPactAttach.pactAttach.pactNo.eq(pactNo)
                         .and(QPactAttach.pactAttach.status.eq('1'))
                 , PageRequest.of(page.getPageNumber(), page.getPageSize(), new Sort(Sort.Direction.ASC, "attachNo")));
-        result.forEach(pactAttach -> pactAttach.setLink(attachmentService.buildDownloadUrl(pactAttach.getUploadFilename())));
         return result;
     }
-
 
     /**
      * 获取项目类别

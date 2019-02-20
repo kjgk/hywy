@@ -13,12 +13,14 @@ const Component = ({
 
   return (
     <div className="formBox">
-      <h4>二0<span id="year" className="width70"></span>年度(<span id="sort" className="width150"></span>) 合同分类台账</h4>
+      <h4><span id="year" className="width70">
+        <DateFormatter value={pact.signDate} pattern="Y"/>
+      </span> 年度 (<span id="sort" style={{padding: '0 6px'}}>{pact.projectName}</span>) 合同分类台账</h4>
       <div className="nodate">
         <table border="0" cellSpacing="0" cellPadding="0" width="330">
           <tr>
             <td>总编号:</td>
-            <td>{pact.serialNo + ' ' + (pact.serialCode || '')}</td>
+            <td>{pact.serialNo}</td>
             <td>分类编号:</td>
             <td>{pact.serialCode || ''}</td>
           </tr>

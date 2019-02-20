@@ -8,7 +8,7 @@ import DateFormatter from '../../../compoment/DateFormatter'
 import DocumentTitle from '../../../compoment/DocumentTitle'
 import PaymentModal from "./PaymentModal"
 import AttachModal from "./AttachModal"
-import {contentPath} from "../../../utils/config"
+import {apiPrefix, contentPath} from "../../../utils/config"
 import './pact.css'
 
 const Component = ({
@@ -290,10 +290,10 @@ const Component = ({
               </Skeleton>
               <ul className="nav nav-tabs contractDetialTabs">
                 {showPayment && <li className={classNames({active: tabActive === 'payment'})}>
-                  <a href="javascript:;" onClick={handleShowPayment}>付款信息表</a>
+                  <a href="javascript:" onClick={handleShowPayment}>付款信息表</a>
                 </li>}
                 <li className={classNames({active: tabActive === 'attach'})}>
-                  <a href="javascript:;" onClick={handleShowAttach}>扫描页</a>
+                  <a href="javascript:" onClick={handleShowAttach}>扫描页</a>
                 </li>
               </ul>
               <div className="tab-content contractDetialContent">
@@ -369,7 +369,7 @@ const Component = ({
                         <tr key={item.attachNo}>
                           <td>{index + 1}</td>
                           <td>
-                            <a target="_blank" href={contentPath + item.link}>{item.filename}</a>
+                            <a target="_blank" href={`${contentPath}${apiPrefix}/contract/attach/${item.attachNo}/download`}>{item.filename}</a>
                           </td>
                           <td>
                             <DateFormatter pattern="Y-MM-DD HH:mm" value={item.uploadTime}/>
