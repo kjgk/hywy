@@ -105,18 +105,20 @@ const createCrudModel = function (namespace, pathname, {query, get, create, upda
 
       * create({payload}, {call, put}) {
         NProgress.start()
-        yield call(create, payload)
+        const result = yield call(create, payload)
         yield put({type: 'hideModal'})
         message.success('保存成功！')
         NProgress.done()
+        return result
       },
 
       * update({payload}, {call, put}) {
         NProgress.start()
-        yield call(update, payload)
+        const result = yield call(update, payload)
         yield put({type: 'hideModal'})
         message.success('更新成功！')
         NProgress.done()
+        return result
       },
 
       * delete({payload}, {call, put, select}) {

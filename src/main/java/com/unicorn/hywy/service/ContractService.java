@@ -338,7 +338,7 @@ public class ContractService {
     public void createPactAttaches(PactAttaches pactAttaches) {
 
         for (FileUploadInfo fileUploadInfo : pactAttaches.getFileList()) {
-            String uploadFilename = "/pact" + "/" + idWorker.nextId();
+            String uploadFilename = "/pact/" + pactAttaches.getPactNo() + "/" + idWorker.nextId();
             File file = new File(environmentService.getTempPath() + "/" + fileUploadInfo.getTempFilename());
             try {
                 FileUtils.copyFile(file, new File(environmentService.getUploadPath() + uploadFilename));

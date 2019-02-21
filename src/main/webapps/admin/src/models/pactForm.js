@@ -1,4 +1,5 @@
 import service from '../services/contract'
+import companyService from '../services/company'
 import {model} from './base'
 import modelExtend from "dva-model-extend"
 import {routerRedux} from 'dva/router'
@@ -33,21 +34,16 @@ export default modelExtend(model, {
       {id: 7, name: '一次性'},
       {id: 0, name: '其他'},
     ],
+    addCompanyField: undefined,
+    companyList: [],
   },
 
   subscriptions: {
     setup({dispatch, history}) {
       history.listen((location) => {
         const {pathname} = location
-        if (/\/contract\/pact\/\d+\/edit$/.test(pathname)) {
-          const pactNo = pathname.split('/')[3]
-          dispatch({
-            type: 'getPact',
-            payload: {
-              pactNo,
-            }
-          })
-        } else {
+        let match = false
+        if (/\/contract\/pact\/new$/.test(pathname)) {
           dispatch({
             type: 'updateState',
             payload: {
@@ -57,7 +53,25 @@ export default modelExtend(model, {
               },
               payType: 0,
               payMode: undefined,
+              addCompanyField: undefined,
+              companyList: [],
             },
+          })
+          match = true
+        } else if (/\/contract\/pact\/\d+\/edit$/.test(pathname)) {
+          const pactNo = pathname.split('/')[3]
+          dispatch({
+            type: 'getPact',
+            payload: {
+              pactNo,
+            }
+          })
+          match = true
+        }
+
+        if (match) {
+          dispatch({
+            type: 'fetchCompanyList',
           })
         }
       })
@@ -87,7 +101,35 @@ export default modelExtend(model, {
         },
       })
     },
+    * fetchCompanyList({payload = {}}, {call, put}) {
+      const companyList = yield call(companyService.getList)
+      yield put({
+        type: 'updateState',
+        payload: {companyList},
+      })
+    },
+    * openCompanyModal({payload = {}}, {call, put}) {
+      yield put({
+        type: 'company/showModal',
+        payload: {
+          modalType: 'create',
+        }
+      })
+      yield put({
+        type: 'updateState',
+        payload: payload,
+      })
+    },
+    * createAddSelectCompany({payload = {}}, {call, put, select}) {
+      const {companyList, addCompanyField, pact} = yield select(_ => _[namespace])
+      pact[addCompanyField] = payload.id
+      yield put({
+        type: 'updateState',
+        payload: {
+          companyList: [...companyList, payload],
+          pact,
+        },
+      })
+    },
   },
-
-  reducers: {},
 })

@@ -1,41 +1,28 @@
-import React from 'react'
-import {Select } from 'antd'
-import service from '../services/company'
+import React, {Fragment} from 'react'
+import {Divider, Icon, Select} from 'antd'
 
 const Option = Select.Option
 
-let list
-
 export default class Component extends React.Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      list: list || [],
-      value: props.value,
-    }
-  }
-
-  componentDidMount() {
-    if (list === undefined || list.length === 0) {
-      this.initStatus()
-    }
-  }
-
-  async initStatus() {
-    list = await service.getList()
-    this.setState({
-      list,
-    })
-  }
-
   render() {
+    const {companyList, onAddCompany} = this.props
     return (
       <Select {...this.props}
               optionFilterProp="children"
               style={{width: '100%'}}
+              dropdownRender={menu => (
+                <Fragment>
+                  {menu}
+                  {onAddCompany && <Fragment><Divider style={{margin: '0'}}/>
+                    <a style={{padding: '8px', display: 'block', cursor: 'pointer'}} onClick={onAddCompany}>
+                      <Icon type="plus"/> 新增客户
+                    </a>
+                  </Fragment>}
+                </Fragment>
+              )}
       >
-        {this.state.list.map((item) => <Option value={item.id} key={item.id}>{item.name}</Option>)}
+        {companyList && companyList.map((item) => <Option value={item.id} key={item.id}>{item.name}</Option>)}
       </Select>
     )
   }

@@ -12,11 +12,12 @@ import DocumentTitle from '../../../compoment/DocumentTitle'
 import NumberFormat from 'react-number-format'
 import {getMoneyValue, getPercentValue, getTextInitialValue} from "../../../utils/util"
 import './pact.css'
+import CompanyModal from '../../company/Modal'
 
 const RadioGroup = Radio.Group
 
 const Component = ({
-                     location, dispatch, model, loading,
+                     location, dispatch, model, companyModel, loading,
                      form: {
                        getFieldDecorator,
                        validateFields,
@@ -26,7 +27,8 @@ const Component = ({
                      },
                    }) => {
 
-  const {execStates, payTypes, payModes, pact, payType, payMode} = model
+  const {execStates, payTypes, payModes, pact, payType, payMode, companyList} = model
+  const {modalVisible} = companyModel
   const isEdit = pact.pactNo !== undefined
   const payElements = {
     pactSum: payMode !== 0 && payMode !== undefined,
@@ -78,6 +80,41 @@ const Component = ({
         payMode: target.value,
       }
     })
+  }
+
+
+  const onAddCompany = (addCompanyField) => {
+    dispatch({
+      type: `pactForm/openCompanyModal`,
+      payload: {
+        addCompanyField,
+      },
+    })
+  }
+
+  const companyModalProps = {
+    item: {},
+    visible: modalVisible,
+    maskClosable: false,
+    confirmLoading: loading.effects[`company/create`],
+    title: `新增客户`,
+    onOk(data) {
+      dispatch({
+        type: `company/create`,
+        payload: data,
+      })
+        .then((company) => {
+          dispatch({
+            type: `pactForm/createAddSelectCompany`,
+            payload: company,
+          })
+        })
+    },
+    onCancel() {
+      dispatch({
+        type: `company/hideModal`,
+      })
+    },
   }
 
   return (
@@ -167,11 +204,14 @@ const Component = ({
 
                         <div className={classNames({'form-group': true, 'has-error': !!getFieldError('compA')})}>
                           <label className="col-sm-3 control-label">甲方：</label>
-                          <div className="col-sm-9">
-                            {getFieldDecorator('compA', {
-                              initialValue: pact.compA,
-                              rules: [{required: true, message: '请选择'}],
-                            })(<CompanySelect size="large" showSearch placeholder="请选择"/>)}
+                          <div className="col-sm-9" onMouseDown={(e) => {
+                            // https://github.com/ant-design/ant-design/issues/13504
+                            e.preventDefault()
+                            return false
+                          }}>{getFieldDecorator('compA', {
+                            initialValue: pact.compA,
+                            rules: [{required: true, message: '请选择'}],
+                          })(<CompanySelect size="large" showSearch placeholder="请选择" companyList={companyList} onAddCompany={() => onAddCompany('compA')}/>)}
                             <span className="help-block">
                               {(errors.compA = getFieldError('compA')) ? errors.compA.join(',') : null}
                             </span>
@@ -180,11 +220,13 @@ const Component = ({
 
                         <div className={classNames({'form-group': true, 'has-error': !!getFieldError('compB')})}>
                           <label className="col-sm-3 control-label">乙方：</label>
-                          <div className="col-sm-9">
-                            {getFieldDecorator('compB', {
-                              initialValue: pact.compB,
-                              rules: [{required: true, message: '请选择'}],
-                            })(<CompanySelect size="large" showSearch placeholder="请选择"/>)}
+                          <div className="col-sm-9" onMouseDown={(e) => {
+                            e.preventDefault()
+                            return false
+                          }}>{getFieldDecorator('compB', {
+                            initialValue: pact.compB,
+                            rules: [{required: true, message: '请选择'}],
+                          })(<CompanySelect size="large" showSearch placeholder="请选择" companyList={companyList} onAddCompany={() => onAddCompany('compB')}/>)}
                             <span className="help-block">
                               {(errors.compB = getFieldError('compB')) ? errors.compB.join(',') : null}
                             </span>
@@ -193,19 +235,23 @@ const Component = ({
 
                         <div className="form-group">
                           <label className="col-sm-3 control-label">丙方：</label>
-                          <div className="col-sm-9">
-                            {getFieldDecorator('compC', {
-                              initialValue: pact.compC,
-                            })(<CompanySelect size="large" showSearch allowClear placeholder="请选择"/>)}
+                          <div className="col-sm-9" onMouseDown={(e) => {
+                            e.preventDefault()
+                            return false
+                          }}>{getFieldDecorator('compC', {
+                            initialValue: pact.compC,
+                          })(<CompanySelect size="large" showSearch placeholder="请选择" companyList={companyList} onAddCompany={() => onAddCompany('compC')}/>)}
                           </div>
                         </div>
 
                         <div className="form-group">
                           <label className="col-sm-3 control-label">丁方：</label>
-                          <div className="col-sm-9">
-                            {getFieldDecorator('compD', {
-                              initialValue: pact.compD,
-                            })(<CompanySelect size="large" showSearch allowClear placeholder="请选择"/>)}
+                          <div className="col-sm-9" onMouseDown={(e) => {
+                            e.preventDefault()
+                            return false
+                          }}>{getFieldDecorator('compD', {
+                            initialValue: pact.compD,
+                          })(<CompanySelect size="large" showSearch placeholder="请选择" companyList={companyList} onAddCompany={() => onAddCompany('compD')}/>)}
                           </div>
                         </div>
 
@@ -258,13 +304,13 @@ const Component = ({
                         <div className="form-group">
                           <label className="col-sm-3 control-label">档案代码：</label>
                           <div className="col-sm-8">
-                            <input type="text" className="form-control" value={pact.pactNo} readOnly/>
+                            <input type="text" className="form-control" value={pact.pactNo || ''} readOnly/>
                           </div>
                         </div>
                         <div className="form-group">
                           <label className="col-sm-3 control-label">合同代码：</label>
                           <div className="col-sm-8">
-                            <input type="text" className="form-control" value={pact.pactNumber} readOnly/>
+                            <input type="text" className="form-control" value={pact.pactNumber || ''} readOnly/>
                           </div>
                         </div>
                         <div className="form-group">
@@ -375,7 +421,7 @@ const Component = ({
                               initialValue: pact.prePercent,
                               rules: [{required: true, message: '预收付不能为空'}],
                             })(<NumberFormat className="form-control" placeholder="%" allowNegative={false} decimalScale={0} thousandSeparator={true}
-                                             suffix={'%'} />)}
+                                             suffix={'%'}/>)}
                             <span className="help-block">
                               {(errors.prePercent = getFieldError('prePercent')) ? errors.prePercent.join(',') : null}
                             </span>
@@ -397,6 +443,7 @@ const Component = ({
             </div>
           </div>
         </section>
+        {modalVisible && <CompanyModal {...companyModalProps} />}
       </div>
     </DocumentTitle>
   )
@@ -405,6 +452,7 @@ const Component = ({
 export default connect((models) => {
   return {
     model: models.pactForm,
+    companyModel: models.company,
     loading: models.loading,
   }
 })(Form.create()(Component))

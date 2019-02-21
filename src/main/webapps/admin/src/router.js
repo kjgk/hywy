@@ -25,12 +25,12 @@ const menus = [
   },
   {
     path: '/contract/pact/new',
-    models: () => [import('./models/pactForm')],
+    models: () => [import('./models/pactForm'), import('./models/company')],
     component: () => import('./routes/contract/pact/PactForm'),
   },
   {
     path: '/contract/pact/:pactNo/edit',
-    models: () => [import('./models/pactForm')],
+    models: () => [import('./models/pactForm'), import('./models/company')],
     component: () => import('./routes/contract/pact/PactForm'),
   },
   {
