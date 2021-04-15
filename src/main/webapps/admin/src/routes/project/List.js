@@ -11,7 +11,7 @@ const List = ({onDeleteItem, location, ...tableProps}) => {
     {
       title: '项目名称',
       dataIndex: 'projectName',
-      render: (value, record) => <Link to={`/contract/${record.projectId}`}>{value}</Link>
+      render: (value, record) => <Link to={`/project/${record.projectId}`}>{value}</Link>
     },
     {
       title: '前期合同（份）',

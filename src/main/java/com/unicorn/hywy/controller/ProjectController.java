@@ -1,77 +1,55 @@
+
 package com.unicorn.hywy.controller;
 
-import com.querydsl.core.types.dsl.BooleanExpression;
+import com.unicorn.hywy.model.po.Pact;
 import com.unicorn.hywy.model.po.Project;
-import com.unicorn.hywy.model.po.QProject;
 import com.unicorn.hywy.model.vo.BasicInfo;
-import com.unicorn.hywy.repository.ProjectRepository;
+import com.unicorn.hywy.model.vo.ProjectInfo;
+import com.unicorn.hywy.service.PactService;
+import com.unicorn.hywy.service.ProjectService;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
-
-import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import static com.unicorn.hywy.controller.ApiNamespace.API_V1;
 
 @RestController
-@RequestMapping(API_V1 + "/project")
+@RequestMapping({API_V1 + "/project"})
 public class ProjectController {
+    private final ProjectService projectService;
+    private final PactService pactService;
 
-    private final ProjectRepository repository;
-
-    ProjectController(ProjectRepository repository) {
-        this.repository = repository;
+    ProjectController(ProjectService projectService, PactService pactService) {
+        this.projectService = projectService;
+        this.pactService = pactService;
     }
 
     @GetMapping
-    Page<Project> page(Pageable page, String keyword) {
-
-        QProject project = QProject.project;
-        BooleanExpression expression = project.isNotNull();
-        if (!StringUtils.isEmpty(keyword)) {
-            expression = expression.and(project.name.contains(keyword));
-        }
-        return repository.findAll(expression, page);
+    Page<ProjectInfo> queryProjectInfo(Pageable page, String keyword) {
+        return this.projectService.queryProjectInfo(keyword, page);
     }
 
-    @GetMapping("/list")
+    @GetMapping({"/{id}/pact"})
+    Iterable<Pact> getPactList(@PathVariable Long id, String categoryId) {
+        return this.pactService.getPactList(id, categoryId);
+    }
+
+    @GetMapping({"/list"})
     List<BasicInfo> list() {
-
-        List<BasicInfo> result = new ArrayList();
-        repository.findAll(QProject.project.status.eq('0')).forEach(project -> result.add(BasicInfo.valueOf(project.getId().toString(), project.getName())));
-        return result;
+        return this.projectService.list();
     }
 
-
-    @GetMapping("/{id}")
+    @GetMapping({"/{id}"})
     Project get(@PathVariable Long id) {
-
-        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException(Project.class.getName() + "#" + id));
+        return this.projectService.get(id);
     }
 
-    @PostMapping
-    Project create(@RequestBody Project project) {
-        return repository.save(project);
-    }
-
-    @PatchMapping("/{id}")
-    Project update(@RequestBody Project pro, @PathVariable Long id) {
-
-        return repository.findById(id)
-                .map(current -> {
-                    current.setName(pro.getName());
-                    current.setLogo(pro.getLogo());
-                    current.setStatus(pro.getStatus());
-                    return repository.save(current);
-                })
-                .orElse(null);
-    }
-
-    @DeleteMapping("/{id}")
-    void remove(@PathVariable Long id) {
-        repository.deleteById(id);
+    @GetMapping({"/accCode"})
+    List<BasicInfo> getAccCode() {
+        return this.projectService.getAccCode();
     }
 }

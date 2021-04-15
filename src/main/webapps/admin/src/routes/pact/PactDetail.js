@@ -4,11 +4,11 @@ import {connect} from 'dva'
 import classNames from 'classnames'
 import {Modal, Skeleton} from 'antd'
 import NumberFormat from 'react-number-format'
-import DateFormatter from '../../../compoment/DateFormatter'
-import DocumentTitle from '../../../compoment/DocumentTitle'
+import DateFormatter from '../../compoment/DateFormatter'
+import DocumentTitle from '../../compoment/DocumentTitle'
 import PaymentModal from "./PaymentModal"
 import AttachModal from "./AttachModal"
-import {apiPrefix, contentPath} from "../../../utils/config"
+import {apiPrefix, contentPath} from "../../utils/config"
 import './pact.css'
 
 const Component = ({
@@ -17,13 +17,14 @@ const Component = ({
 
   const {execStates} = pactForm
   const {pact, tabActive, attachList, attachModalVisible, attachProgress} = pactDetail
-  const {currentItem, modalVisible, modalType, list: paymentList} = payment
+  const {currentItem, modalVisible, modalType, paymentList = []} = payment
   const {pactNo} = pact
 
   const showPayment = pact.payType !== 0
 
   const paymentModalProps = {
     item: modalType === 'create' ? {} : currentItem,
+    pact,
     visible: modalVisible,
     maskClosable: false,
     confirmLoading: loading.effects[`payment/${modalType}`],
@@ -93,21 +94,15 @@ const Component = ({
 
   const refreshPaymentList = () => {
     dispatch({
-      type: 'payment/query',
-      payload: {
-        pactNo,
-        pageSize: 2000,
-      },
+      type: 'payment/getPaymentList',
+      payload: pactNo,
     })
   }
 
   const refreshAttachList = () => {
     dispatch({
       type: 'pactDetail/getAttachList',
-      payload: {
-        pactNo,
-        pageSize: 2000,
-      },
+      payload: pactNo,
     })
   }
 
@@ -187,7 +182,7 @@ const Component = ({
           <ol className="breadcrumb">
             <li>当前位置：</li>
             <li>
-              <Link to="/contract">合同管理</Link>
+              <Link to="/pact">合同管理</Link>
             </li>
             <li className="active">合同详情页</li>
           </ol>
@@ -196,9 +191,9 @@ const Component = ({
               <Skeleton loading={loading.effects[`pactDetail/getPactDetail`]}>
                 <h2 className="contractDetailTitle">
                   {pact.projectName + ' ' + pact.name}
-                  <Link to={`/contract/pact/${pactNo}/edit`} className="btnEdit">
+                  <Link to={`/pact/${pactNo}/edit`} className="btnEdit">
                     <i className="fa fa-edit"/> 编辑项目 </Link>
-                  <Link to={`/contract/pact/${pactNo}/preview`} target="_blank" className="btnEdit">
+                  <Link to={`/pact/${pactNo}/preview`} target="_blank" className="btnEdit">
                     <i className="fa fa-print"/> 打印项目 </Link>
                 </h2>
                 <div className="contractDetial">
@@ -309,7 +304,7 @@ const Component = ({
                       <tr>
                         <th>序号</th>
                         <th>日期</th>
-                        <th>凭证</th>
+                        <th>申请单号</th>
                         <th>类型</th>
                         <th>金额</th>
                         <th>备注</th>
@@ -337,7 +332,7 @@ const Component = ({
                             <a onClick={() => handleDeletePayment(item)}><i className="fa fa-trash-o"/>删除</a>
                           </td>
                           <td className="operateBtn">
-                            <Link to={`/contract/payment/${item.payNo}/preview`} target="_blank"><i className="fa fa-print"/>付款审核表</Link>
+                            <Link to={`/payment/${item.payNo}/preview`} target="_blank"><i className="fa fa-print"/>付款审核表</Link>
                           </td>
                         </tr>
                       )}
@@ -358,10 +353,10 @@ const Component = ({
                     <table className="table">
                       <thead>
                       <tr>
-                        <th width="50">序号</th>
-                        <th width="700">文件名称</th>
-                        <th width="150">上传日期</th>
-                        <th width="150">操作</th>
+                        <th width="10%">序号</th>
+                        <th width="50">文件名称</th>
+                        <th width="20">上传日期</th>
+                        <th width="20">操作</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -369,7 +364,7 @@ const Component = ({
                         <tr key={item.attachNo}>
                           <td>{index + 1}</td>
                           <td>
-                            <a target="_blank" href={`${contentPath}${apiPrefix}/contract/attach/${item.attachNo}/download`}>{item.filename}</a>
+                            <a target="_blank" href={`${contentPath}${apiPrefix}/attach/${item.attachNo}/download`}>{item.filename}</a>
                           </td>
                           <td>
                             <DateFormatter pattern="Y-MM-DD HH:mm" value={item.uploadTime}/>

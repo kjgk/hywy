@@ -6,8 +6,8 @@ import Filter from './Filter'
 import List from './List'
 import DocumentTitle from '../../compoment/DocumentTitle'
 
-const namespace = 'contract'
-const name = '合同'
+const namespace = 'project'
+const name = '项目汇总'
 
 const Component = ({
                      location, dispatch, model, loading,
@@ -53,12 +53,12 @@ const Component = ({
       })
     },
     onAdd() {
-      dispatch(routerRedux.push('/contract/pact/new'))
+      dispatch(routerRedux.push('/pact/new'))
     },
   }
 
   return (
-    <DocumentTitle title='合同管理'>
+    <DocumentTitle title='项目汇总'>
       <section className="projectList">
         <div className="container">
           <Filter {...filterProps} />

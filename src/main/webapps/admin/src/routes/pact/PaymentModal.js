@@ -1,14 +1,15 @@
 import React from 'react'
 import classNames from 'classnames'
 import NumberFormat from 'react-number-format'
-import {Form, DatePicker, Modal, Radio} from 'antd'
+import {DatePicker, Form, Modal, Radio, Select} from 'antd'
 import moment from 'moment'
-import {getMoneyValue, getTextInitialValue} from "../../../utils/util"
+import {getMoneyValue, getTextInitialValue} from "../../utils/util"
 
 const RadioGroup = Radio.Group
 
 const modal = ({
                  item = {},
+                 pact = {},
                  onOk,
                  form: {
                    getFieldDecorator,
@@ -58,9 +59,30 @@ const modal = ({
             {getFieldDecorator('payType', {
               initialValue: item.payType || 1,
             })(<RadioGroup>
-              <Radio key={1} value={1}>收款</Radio>
+              <Radio key={1} value={1}>付款</Radio>
               <Radio key={2} value={2}>退款</Radio>
             </RadioGroup>)}
+          </div>
+        </div>
+        <div className={classNames({'form-group': true, 'has-error': !!getFieldError('company')})}>
+          <label className="col-sm-3 control-label">付款给：</label>
+          <div className="col-sm-8">
+            {getFieldDecorator('company', {
+              initialValue: item.company,
+              rules: [
+                {required: true, message: '单位不能为空'},
+              ],
+            })(
+              <Select optionFilterProp="children" placeholder="请选择单位" style={{width: '100%'}}>
+                {pact.signA && <Select.Option value={'A'} key={'A'}>甲方（{pact.signA}）</Select.Option>}
+                {pact.signB && <Select.Option value={'B'} key={'B'}>乙方（{pact.signB}）</Select.Option>}
+                {pact.signC && <Select.Option value={'C'} key={'C'}>丙方（{pact.signC}）</Select.Option>}
+                {pact.signD && <Select.Option value={'D'} key={'D'}>丁方（{pact.signD}）</Select.Option>}
+              </Select>
+            )}
+            <span className="help-block">
+              {(errors.company = getFieldError('company')) ? errors.company.join(',') : null}
+            </span>
           </div>
         </div>
         <div className={classNames({'form-group': true, 'has-error': !!getFieldError('payDate')})}>
@@ -80,15 +102,15 @@ const modal = ({
           </div>
         </div>
         <div className={classNames({'form-group': true, 'has-error': !!getFieldError('warrant')})}>
-          <label className="col-sm-3 control-label">凭证：</label>
+          <label className="col-sm-3 control-label">申请单号：</label>
           <div className="col-sm-8">
             {getFieldDecorator('warrant', {
               initialValue: getTextInitialValue(item.warrant),
               rules: [
-                {required: true, pattern: /^\w{1,7}$/, message: '凭证不能为空，并且长度不能大于7位'},
+                {required: true/*, pattern: /^\w{1,7}$/*/, message: '申请单号不能为空'},
               ],
             })(
-              <input type="text" className="form-control" placeholder="请输入凭证"/>
+              <input type="text" className="form-control" placeholder="请输入申请单号"/>
             )}
             <span className="help-block">
               {(errors.warrant = getFieldError('warrant')) ? errors.warrant.join(',') : null}
@@ -104,7 +126,8 @@ const modal = ({
                 {required: true, message: '金额不能为空',},
               ],
             })(
-              <NumberFormat className="form-control" placeholder="请输入金额" allowNegative={false} decimalScale={2} thousandSeparator={true} prefix={'￥'}/>
+              <NumberFormat className="form-control" placeholder="请输入金额" allowNegative={false} decimalScale={2}
+                            thousandSeparator={true} prefix={'￥'}/>
             )}
             <span className="help-block">
               {(errors.payCount = getFieldError('payCount')) ? errors.payCount.join(',') : null}
@@ -118,7 +141,8 @@ const modal = ({
             {getFieldDecorator('invCount', {
               initialValue: item.invCount,
             })(
-              <NumberFormat className="form-control" placeholder="请输入金额" allowNegative={false} decimalScale={2} thousandSeparator={true} prefix={'￥'}/>
+              <NumberFormat className="form-control" placeholder="请输入金额" allowNegative={false} decimalScale={2}
+                            thousandSeparator={true} prefix={'￥'}/>
             )}
           </div>
         </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 import {Modal, Icon, Upload} from 'antd'
-import {contentPath, apiPrefix} from "../../../utils/config"
+import {contentPath, apiPrefix} from "../../utils/config"
 
 const Dragger = Upload.Dragger
 

@@ -1,4 +1,4 @@
-import service from '../services/contract'
+import service from '../services/pact'
 import {message} from 'antd'
 import {model} from './base'
 import modelExtend from "dva-model-extend"
@@ -21,8 +21,8 @@ export default modelExtend(model, {
     setup({dispatch, history}) {
       history.listen((location) => {
         const {pathname} = location
-        if (/\/contract\/pact\/\d+$/.test(pathname)) {
-          const pactNo = pathname.split('/')[3]
+        if (/\/pact\/\d+$/.test(pathname)) {
+          const pactNo = pathname.split('/')[2]
           dispatch({
             type: 'getPactDetail',
             payload: {
@@ -31,17 +31,11 @@ export default modelExtend(model, {
           }).then(() => {
             dispatch({
               type: 'getAttachList',
-              payload: {
-                pactNo,
-                pageSize: 2000,
-              }
+              payload: pactNo,
             }).then(() => {
               dispatch({
-                type: 'payment/query',
-                payload: {
-                  pactNo,
-                  pageSize: 2000,
-                }
+                type: 'payment/getPaymentList',
+                payload: pactNo,
               })
             })
           })
@@ -75,11 +69,11 @@ export default modelExtend(model, {
       })
     },
     * getAttachList({payload = {}}, {call, put, select}) {
-      let {content} = yield call(service.getAttachList, payload)
+      let attachList = yield call(service.getAttachList, payload)
       yield put({
         type: 'updateState',
         payload: {
-          attachList: content,
+          attachList,
         },
       })
     },

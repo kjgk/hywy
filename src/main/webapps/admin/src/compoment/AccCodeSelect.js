@@ -1,6 +1,6 @@
 import React from 'react'
 import {Select} from 'antd'
-import service from '../services/contract'
+import service from '../services/project'
 
 const Option = Select.Option
 

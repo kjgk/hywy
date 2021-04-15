@@ -10,7 +10,6 @@ body{
 	background: -moz-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
 	background: linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
 	background: -ms-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
-FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#258EDA, endColorStr=#0372CC);
 }
 .btnAdd{
 	border: 1px solid #4A90E2 !important;
@@ -72,7 +71,6 @@ FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr
 	background: -moz-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
 	background: linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
 	background: -ms-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
-FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#258EDA, endColorStr=#0372CC);
 	color: #fff;
 	border:1px solid #258EDA;
 	padding-left:25px;
@@ -132,8 +130,15 @@ FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr
 	padding-left: 15px;
 	padding-right: 15px;
 }
+
+.table-small td {
+	padding: 10px 8px !important;
+	font-size: 15px;
+}
+
 .productName{
 	border-bottom: 3px solid #EEEEEE;
+	padding: 10px 0;
 }
 .btnAdd .fa{
 	margin-right: 8px;
@@ -203,8 +208,7 @@ FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr
 	background: -o-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
 	background: -moz-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
 	background: -ms-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
-FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#258EDA, endColorStr=#0372CC);
-	
+
 }
 .projectList .dropdown-menu>.active>a,.projectList .dropdown-menu>.active>a:hover,.projectList .dropdown-menu>.active>a:focus{
 	background: #258EDA;
@@ -251,8 +255,7 @@ FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr
 	background: -o-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
 	background: -moz-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
 	background: -ms-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
-FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#258EDA, endColorStr=#0372CC);
-	
+
 }
 .popBtnGroup .btn-default{
 	border: 1px solid #258EDA;

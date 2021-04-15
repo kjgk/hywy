@@ -59,6 +59,10 @@
   box-shadow: none !important;
 }
 
+.contractL table th {
+  text-align: center !important;
+}
+
 .contractBtnGroup .btn.btn-primary {
   border: 1px solid #666666;
 }
@@ -72,6 +76,9 @@
   background: -webkit-linear-gradient(-180deg, #258EDA 0%, #0372CC 100%);
 }
 
+.navbar-collapse {
+  min-width: 1140px;
+}
 .navbar-collapse .username {
-  margin: 0 20px 0 320px;
+  margin: 0 20px 0 180px;
 }

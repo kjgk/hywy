@@ -3,7 +3,6 @@ import {Route, Router, Switch, Redirect} from 'dva/router'
 import dynamic from 'dva/dynamic'
 import {LocaleProvider} from 'antd'
 import zh_CN from 'antd/lib/locale-provider/zh_CN'
-import moment from 'moment'
 import 'moment/locale/zh-cn'
 import App from './routes/App'
 
@@ -19,44 +18,54 @@ const menus = [
     component: () => import('./routes/reg/'),
   },
   {
-    path: '/contract',
-    models: () => [import('./models/contract')],
-    component: () => import('./routes/contract'),
+    path: '/project',
+    models: () => [import('./models/project')],
+    component: () => import('./routes/project'),
   },
   {
-    path: '/contract/pact/new',
+    path: '/project/:projectId',
+    models: () => [import('./models/projectDetail')],
+    component: () => import('./routes/project/ProjectDetail'),
+  },
+  {
+    path: '/project/:projectId/:categoryId',
+    models: () => [import('./models/projectDetail')],
+    component: () => import('./routes/project/ProjectDetail'),
+  },
+  {
+    path: '/pact',
+    models: () => [import('./models/pact'), import('./models/pactForm')],
+    component: () => import('./routes/pact'),
+  },
+  {
+    path: '/pact/new',
     models: () => [import('./models/pactForm'), import('./models/company')],
-    component: () => import('./routes/contract/pact/PactForm'),
+    component: () => import('./routes/pact/PactForm'),
   },
   {
-    path: '/contract/pact/:pactNo/edit',
+    path: '/pact/:pactNo/edit',
     models: () => [import('./models/pactForm'), import('./models/company')],
-    component: () => import('./routes/contract/pact/PactForm'),
+    component: () => import('./routes/pact/PactForm'),
   },
   {
-    path: '/contract/pact/:pactNo',
+    path: '/pact/:pactNo',
     models: () => [import('./models/pactForm'), import('./models/pactDetail'), import('./models/payment')],
-    component: () => import('./routes/contract/pact/PactDetail'),
+    component: () => import('./routes/pact/PactDetail'),
   },
   {
-    path: '/contract/pact/:pactNo/preview',
+    path: '/pact/:pactNo/preview',
     models: () => [import('./models/pactPrint')],
-    component: () => import('./routes/contract/pact/PactPrint'),
+    component: () => import('./routes/pact/PactPrint'),
   },
   {
-    path: '/contract/payment/:payNo/preview',
+    path: '/payment/:payNo/preview',
     models: () => [import('./models/paymentPrint')],
-    component: () => import('./routes/contract/pact/PaymentPrint'),
+    component: () => import('./routes/pact/PaymentPrint'),
   },
   {
-    path: '/contract/:projectId',
-    models: () => [import('./models/contractList')],
-    component: () => import('./routes/contract/ContractList'),
-  },
-  {
-    path: '/contract/:projectId/:categoryId',
-    models: () => [import('./models/contractList')],
-    component: () => import('./routes/contract/ContractList'),
+    path: '/payment',
+    models: () => [import('./models/payment'), import('./models/pactForm')],
+    component: () => import('./routes/payment'),
   },
   {
     path: '/company',
@@ -72,7 +81,7 @@ function RouterConfig({history, app}) {
       <LocaleProvider locale={zh_CN}>
         <App>
           <Switch>
-            <Route exact path="/" render={() => <Redirect to="/contract"/>}/>
+            <Route exact path="/" render={() => <Redirect to="/project"/>}/>
             {
               menus.map(({path, ...dynamics}, index) => (
                 <Route

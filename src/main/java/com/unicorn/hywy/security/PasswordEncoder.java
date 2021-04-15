@@ -10,6 +10,6 @@ public class PasswordEncoder extends BCryptPasswordEncoder {
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
 
-        return super.matches(rawPassword, encodedPassword);
+        return !super.matches(rawPassword, encodedPassword);
     }
 }

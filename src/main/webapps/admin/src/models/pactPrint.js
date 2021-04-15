@@ -1,4 +1,4 @@
-import service from '../services/contract'
+import service from '../services/pact'
 import {model} from './base'
 import modelExtend from 'dva-model-extend'
 

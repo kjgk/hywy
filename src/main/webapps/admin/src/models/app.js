@@ -55,7 +55,7 @@ export default modelExtend(model, {
         })
         if (location.pathname === '/login') {
           yield put(routerRedux.push({
-            pathname: '/contract',
+            pathname: '/project',
           }))
         }
       } else if (locationPathname !== '/login' && openPages && openPages.indexOf(location.pathname) === -1) {
@@ -80,12 +80,10 @@ export default modelExtend(model, {
   reducers: {
     initMenu(state) {
       const menus = [
-        // {name: '首页', path: '/'},
-        {name: '合同管理', path: '/contract'},
+        {name: '项目汇总', path: '/project'},
+        {name: '合同管理', path: '/pact'},
+        {name: '付款管理', path: '/payment'},
         {name: '客户管理', path: '/company'},
-        // {name: '档案管理', path: '/archive'},
-        // {name: '租售管理', path: '/sale'},
-        // {name: '系统设置', path: '/system'},
       ]
       return {
         ...state,

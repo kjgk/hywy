@@ -10,7 +10,7 @@ import DateFormatter from '../../compoment/DateFormatter'
 import DocumentTitle from '../../compoment/DocumentTitle'
 import Filter from './Filter'
 
-const namespace = 'contractList'
+const namespace = 'projectDetail'
 
 const Component = ({
                      location, dispatch, model, loading,
@@ -59,15 +59,15 @@ const Component = ({
   const filterProps = {
     filter: {},
     onFilterChange(value) {
-      dispatch(routerRedux.push(`/contract?${stringify(value)}`))
+      dispatch(routerRedux.push(`/project?${stringify(value)}`))
     },
     onAdd() {
-      dispatch(routerRedux.push('/contract/pact/new'))
+      dispatch(routerRedux.push('/pact/new'))
     },
   }
 
   const onClickItem = (record) => {
-    dispatch(routerRedux.push('/contract/pact/' + record.pactNo))
+    dispatch(routerRedux.push('/pact/' + record.pactNo))
   }
   return (
     <DocumentTitle title='合同管理'>
@@ -95,7 +95,7 @@ const Component = ({
                       dataSource={pactList}
                       bordered
                       rowKey='pactNo'
-                      className="table handTr"
+                      className="table handTr table-small"
                       onRow={(record, index) => ({
                         onClick() {
                           onClickItem(record, index)

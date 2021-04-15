@@ -1,15 +1,19 @@
 import React from 'react'
-import classNames from 'classnames'
 import NumberFormat from 'react-number-format'
 import {connect} from "dva"
 import './pactPrint.css'
-import DateFormatter from "../../../compoment/DateFormatter"
+import DateFormatter from "../../compoment/DateFormatter"
+
+const mainCompany = '上海汇银物业管理有限公司'
 
 const Component = ({
                      location, dispatch, pactPrint, loading,
                    }) => {
 
   const {pact, accCodeList} = pactPrint
+  const {signA, signB, signC, signD} = pact
+  const companyList = [signA, signB, signC, signD]
+    .filter(item => item !== undefined && item !== mainCompany)
 
   return (
     <div className="formBox">
@@ -18,16 +22,19 @@ const Component = ({
       </span> 年度 (<span id="sort" style={{padding: '0 6px'}}>{pact.projectName}</span>) 合同分类台账</h4>
       <div className="nodate">
         <table border="0" cellSpacing="0" cellPadding="0" width="330">
+          <thead>
           <tr>
             <td>总编号:</td>
             <td>{pact.serialNo}</td>
             <td>分类编号:</td>
             <td>{pact.serialCode || ''}</td>
           </tr>
+          </thead>
         </table>
       </div>
       <div className="table">
         <table border="1" cellSpacing="0" cellPadding="0" width="100%">
+          <tbody>
           <tr>
             <td rowSpan="9" className="content"><b>主要内容:</b>
               <p><span>{pact.subject}</span></p>
@@ -76,7 +83,9 @@ const Component = ({
           </tr>
           <tr>
             <th>对方单位</th>
-            <td colSpan="3"></td>
+            <td colSpan="3">{
+              companyList.map(company => <div key={company}>{company}</div>)
+            }</td>
             <th>邮&nbsp;&nbsp;编</th>
             <td></td>
             <th>收入性</th>
@@ -102,10 +111,12 @@ const Component = ({
               {pact.payType === 0 && <span className="checked">√</span>}
             </td>
           </tr>
+          </tbody>
         </table>
         <div className="flexWraper">
           <div>
             <table width="100%" border="1">
+              <tbody>
               <tr>
                 <th className="methodTitle" colSpan="8">收入及收款方式<p className="flright">(总标的：<span className="width100">
                   {pact.payType === 1 && <NumberFormat value={pact.auditSum} displayType={'text'} thousandSeparator={true}/>}
@@ -140,21 +151,35 @@ const Component = ({
                 <td><span className="width50">{pact.payType === 1 && pact.payments && pact.payments[5] && pact.payments[5].year}</span>年</td>
               </tr>
               <tr>
-                <td colSpan="2"><span className="width50">{pact.payType === 1 && pact.payments && pact.payments[0] && <NumberFormat value={pact.payments[0].total} displayType={'text'} thousandSeparator={true}/>}</span>元</td>
-                <td colSpan="2"><span className="width50">{pact.payType === 1 && pact.payments && pact.payments[1] && <NumberFormat value={pact.payments[1].total} displayType={'text'} thousandSeparator={true}/>}</span>元</td>
-                <td><span className="width50">{pact.payType === 1 && pact.payments && pact.payments[2] && <NumberFormat value={pact.payments[2].total} displayType={'text'} thousandSeparator={true}/>}</span>元</td>
-                <td><span className="width50">{pact.payType === 1 && pact.payments && pact.payments[3] && <NumberFormat value={pact.payments[3].total} displayType={'text'} thousandSeparator={true}/>}</span>元</td>
-                <td><span className="width50">{pact.payType === 1 && pact.payments && pact.payments[4] && <NumberFormat value={pact.payments[4].total} displayType={'text'} thousandSeparator={true}/>}</span>元</td>
-                <td><span className="width50">{pact.payType === 1 && pact.payments && pact.payments[5] && <NumberFormat value={pact.payments[5].total} displayType={'text'} thousandSeparator={true}/>}</span>元</td>
+                <td colSpan="2"><span className="width50">{pact.payType === 1 && pact.payments && pact.payments[0] &&
+                <NumberFormat value={pact.payments[0].total} displayType={'text'} thousandSeparator={true}/>}</span>元
+                </td>
+                <td colSpan="2"><span className="width50">{pact.payType === 1 && pact.payments && pact.payments[1] &&
+                <NumberFormat value={pact.payments[1].total} displayType={'text'} thousandSeparator={true}/>}</span>元
+                </td>
+                <td><span className="width50">{pact.payType === 1 && pact.payments && pact.payments[2] &&
+                <NumberFormat value={pact.payments[2].total} displayType={'text'} thousandSeparator={true}/>}</span>元
+                </td>
+                <td><span className="width50">{pact.payType === 1 && pact.payments && pact.payments[3] &&
+                <NumberFormat value={pact.payments[3].total} displayType={'text'} thousandSeparator={true}/>}</span>元
+                </td>
+                <td><span className="width50">{pact.payType === 1 && pact.payments && pact.payments[4] &&
+                <NumberFormat value={pact.payments[4].total} displayType={'text'} thousandSeparator={true}/>}</span>元
+                </td>
+                <td><span className="width50">{pact.payType === 1 && pact.payments && pact.payments[5] &&
+                <NumberFormat value={pact.payments[5].total} displayType={'text'} thousandSeparator={true}/>}</span>元
+                </td>
               </tr>
               <tr>
-                <th className="content" colSpan="8" style={{height: '170px'}}><b>变更、接触、纠纷情况：</b>
+                <th className="content" colSpan="8" style={{height: '170px'}}><b>变更、解除、纠纷情况：</b>
                   <p><span>{pact.updateNote}</span></p></th>
               </tr>
+              </tbody>
             </table>
           </div>
           <div>
             <table width="100%" border="1">
+              <tbody>
               <tr>
                 <th className="methodTitle" colSpan="8">支出及付款方式<p className="flright">(总标的：<span className="width70">
                   {pact.payType === 2 && <NumberFormat value={pact.auditSum} displayType={'text'} thousandSeparator={true}/>}
@@ -189,12 +214,24 @@ const Component = ({
                 <td><span className="width50">{pact.payType === 2 && pact.payments && pact.payments[5] && pact.payments[5].year}</span>年</td>
               </tr>
               <tr>
-                <td colSpan="2"><span className="width50">{pact.payType === 2 && pact.payments && pact.payments[0] && <NumberFormat value={pact.payments[0].total} displayType={'text'} thousandSeparator={true}/>}</span>元</td>
-                <td colSpan="2"><span className="width50">{pact.payType === 2 && pact.payments && pact.payments[1] && <NumberFormat value={pact.payments[1].total} displayType={'text'} thousandSeparator={true}/>}</span>元</td>
-                <td><span className="width50">{pact.payType === 2 && pact.payments && pact.payments[2] && <NumberFormat value={pact.payments[2].total} displayType={'text'} thousandSeparator={true}/>}</span>元</td>
-                <td><span className="width50">{pact.payType === 2 && pact.payments && pact.payments[3] && <NumberFormat value={pact.payments[3].total} displayType={'text'} thousandSeparator={true}/>}</span>元</td>
-                <td><span className="width50">{pact.payType === 2 && pact.payments && pact.payments[4] && <NumberFormat value={pact.payments[4].total} displayType={'text'} thousandSeparator={true}/>}</span>元</td>
-                <td><span className="width50">{pact.payType === 2 && pact.payments && pact.payments[5] && <NumberFormat value={pact.payments[5].total} displayType={'text'} thousandSeparator={true}/>}</span>元</td>
+                <td colSpan="2"><span className="width50">{pact.payType === 2 && pact.payments && pact.payments[0] &&
+                <NumberFormat value={pact.payments[0].total} displayType={'text'} thousandSeparator={true}/>}</span>元
+                </td>
+                <td colSpan="2"><span className="width50">{pact.payType === 2 && pact.payments && pact.payments[1] &&
+                <NumberFormat value={pact.payments[1].total} displayType={'text'} thousandSeparator={true}/>}</span>元
+                </td>
+                <td><span className="width50">{pact.payType === 2 && pact.payments && pact.payments[2] &&
+                <NumberFormat value={pact.payments[2].total} displayType={'text'} thousandSeparator={true}/>}</span>元
+                </td>
+                <td><span className="width50">{pact.payType === 2 && pact.payments && pact.payments[3] &&
+                <NumberFormat value={pact.payments[3].total} displayType={'text'} thousandSeparator={true}/>}</span>元
+                </td>
+                <td><span className="width50">{pact.payType === 2 && pact.payments && pact.payments[4] &&
+                <NumberFormat value={pact.payments[4].total} displayType={'text'} thousandSeparator={true}/>}</span>元
+                </td>
+                <td><span className="width50">{pact.payType === 2 && pact.payments && pact.payments[5] &&
+                <NumberFormat value={pact.payments[5].total} displayType={'text'} thousandSeparator={true}/>}</span>元
+                </td>
               </tr>
               <tr>
                 <th className="content" colSpan="8" style={{height: '170px', position: 'relative'}}>
@@ -204,6 +241,7 @@ const Component = ({
                     className="width50"></span>月<span className="width50"></span>日</p>
                 </th>
               </tr>
+              </tbody>
             </table>
           </div>
         </div>

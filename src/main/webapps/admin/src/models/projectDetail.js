@@ -1,9 +1,8 @@
-import contractService from '../services/contract'
 import projectService from '../services/project'
 import {model} from './base'
 import modelExtend from "dva-model-extend"
 
-const namespace = 'contractList'
+const namespace = 'projectDetail'
 
 export default modelExtend(model, {
 
@@ -20,7 +19,7 @@ export default modelExtend(model, {
     setup({dispatch, history}) {
       history.listen((location) => {
         const {pathname} = location
-        if (/\/contract\/\d+$/.test(pathname) || /\/contract\/\d+\/\d+$/.test(pathname)) {
+        if (/\/project\/\d+$/.test(pathname) || /\/project\/\d+\/\d+$/.test(pathname)) {
           const [p0, p1, p2, p3] = pathname.split('/')
           dispatch({
             type: 'initTabList',
@@ -60,7 +59,7 @@ export default modelExtend(model, {
       if (tabList.length > 0) {
         return
       }
-      tabList = yield call(contractService.getAccCodeList)
+      tabList = yield call(projectService.getAccCodeList)
       yield put({
         type: 'updateState',
         payload: {
@@ -78,7 +77,7 @@ export default modelExtend(model, {
       })
     },
     * fetchPactList({payload = {}}, {call, put, select}) {
-      let pactList = yield call(contractService.getPactList, payload)
+      let pactList = yield call(projectService.getPactList, payload.projectId, payload.categoryId)
       yield put({
         type: 'updateState',
         payload: {

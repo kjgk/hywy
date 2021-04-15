@@ -30,4 +30,6 @@ public class Payment {
     private Double invCount;
 
     private String remark;
+
+    private String company;
 }

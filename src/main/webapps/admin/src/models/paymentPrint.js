@@ -11,12 +11,12 @@ export default modelExtend(model, {
   subscriptions: {
     setup({dispatch, history}) {
       history.listen((location) => {
-        if (/\/contract\/payment\/\d+\/preview$/.test(location.pathname)) {
+        if (/\/payment\/\d+\/preview$/.test(location.pathname)) {
           let paths = location.pathname.split('/')
           dispatch({
             type: 'query',
             payload: {
-              payNo: paths[3],
+              payNo: paths[2],
             },
           })
         } else {

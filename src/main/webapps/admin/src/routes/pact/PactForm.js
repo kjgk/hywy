@@ -4,15 +4,15 @@ import {Link} from 'react-router-dom'
 import {connect} from 'dva'
 import {Form, DatePicker, Button, Radio} from 'antd'
 import moment from 'moment'
-import SimpleSelect from '../../../compoment/SimpleSelect'
-import ProjectSelect from '../../../compoment/ProjectSelect'
-import AccCodeSelect from '../../../compoment/AccCodeSelect'
-import CompanySelect from '../../../compoment/CompanySelect'
-import DocumentTitle from '../../../compoment/DocumentTitle'
+import SimpleSelect from '../../compoment/SimpleSelect'
+import ProjectSelect from '../../compoment/ProjectSelect'
+import AccCodeSelect from '../../compoment/AccCodeSelect'
+import CompanySelect from '../../compoment/CompanySelect'
+import DocumentTitle from '../../compoment/DocumentTitle'
 import NumberFormat from 'react-number-format'
-import {getMoneyValue, getPercentValue, getTextInitialValue} from "../../../utils/util"
+import {getMoneyValue, getPercentValue, getTextInitialValue} from "../../utils/util"
 import './pact.css'
-import CompanyModal from '../../company/Modal'
+import CompanyModal from '../company/Modal'
 
 const RadioGroup = Radio.Group
 
@@ -46,13 +46,14 @@ const Component = ({
       if (errors) {
         return
       }
-      const {auditSum, pactSum, monthPay, prePercent, signDate, signDate2, ...values} = getFieldsValue()
+      const {auditSum, pactSum, monthPay, prePercent, signDate, signDate2, signDate3, ...values} = getFieldsValue()
       dispatch({
         type: 'pactForm/save',
         payload: {
           ...values,
           signDate: signDate && signDate.format('Y-MM-DD'),
           signDate2: signDate2 && signDate2.format('Y-MM-DD'),
+          signDate3: signDate3 && signDate3.format('Y-MM-DD'),
           auditSum: getMoneyValue(auditSum),
           pactSum: getMoneyValue(pactSum),
           monthPay: getMoneyValue(monthPay),
@@ -125,7 +126,7 @@ const Component = ({
             <ol className="breadcrumb">
               <li>当前位置：</li>
               <li>
-                <Link to="/contract">合同管理</Link>
+                <Link to="/pact">合同管理</Link>
               </li>
               <li className="active">{`${isEdit ? '修改' : '新增'}合同`}</li>
             </ol>

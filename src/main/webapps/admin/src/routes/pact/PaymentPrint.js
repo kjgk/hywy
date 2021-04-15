@@ -1,9 +1,8 @@
 import React from 'react'
-import classNames from 'classnames'
 import NumberFormat from 'react-number-format'
 import {connect} from "dva"
 import './paymentPrint.css'
-import DateFormatter from "../../../compoment/DateFormatter"
+import DateFormatter from "../../compoment/DateFormatter"
 
 const Component = ({
                      location, dispatch, paymentPrint, loading,
@@ -13,7 +12,7 @@ const Component = ({
 
   return (
     <div className="formBox">
-      <h4>工程合同付款审核表</h4>
+      <h4>合同付款审核表</h4>
       <div className="nodate">
         <table border="0" cellSpacing="0" cellPadding="0" width="130">
           <tr>
@@ -41,7 +40,7 @@ const Component = ({
           </tr>
           <tr>
             <th>对方单位</th>
-            <td colSpan="3">{payment.signB}</td>
+            <td colSpan="3">{payment['sign' + payment.company]}</td>
           </tr>
           <tr>
             <th>合同金额</th>
@@ -57,18 +56,18 @@ const Component = ({
             <td colSpan="4">
               <table width="100%" className="subTable">
                 <tr>
-                  <td>序号</td>
-                  <td>日期</td>
-                  <td>凭证</td>
-                  <td>付对方单位</td>
-                  <td>房产公司付总公司</td>
+                  <td>序号：{payment.index + 1}</td>
+                  <td>日期：<DateFormatter pattern="Y-MM-DD" value={payment.payDate}/></td>
+                  <td>申请单号：{payment.warrant}</td>
+                  {/*<td>付对方单位</td>*/}
+                  {/*<td>房产公司付总公司</td>*/}
                 </tr>
                 <tr>
-                  <td>合计</td>
+                  <td>合计：  <NumberFormat value={payment.payCount} displayType={'text'} thousandSeparator={true}/></td>
                   <td></td>
                   <td></td>
-                  <td className="money">0.00</td>
-                  <td className="money">0.00</td>
+                  {/*<td className="money">0.00</td>*/}
+                  {/*<td className="money">0.00</td>*/}
                 </tr>
               </table>
             </td>
@@ -93,7 +92,9 @@ const Component = ({
             <td colSpan="4" style={{height: 70, 'vertical-align': 'top'}}>
               备注
               <br/>
-              {payment.remark}
+              <div style={{whiteSpace: 'pre'}}>
+                {payment.remark}
+              </div>
             </td>
           </tr>
           <tr>

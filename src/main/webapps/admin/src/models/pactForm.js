@@ -1,4 +1,4 @@
-import service from '../services/contract'
+import service from '../services/pact'
 import companyService from '../services/company'
 import {model} from './base'
 import modelExtend from "dva-model-extend"
@@ -24,6 +24,11 @@ export default modelExtend(model, {
       {id: 1, name: '收入性'},
       {id: 2, name: '支出性'},
     ],
+    // 用于付款管理页面
+    payTypes2: [
+      {id: 1, name: '收款'},
+      {id: 2, name: '付款'},
+    ],
     payModes: [
       {id: 1, name: '全年'},
       {id: 2, name: '半年'},
@@ -43,7 +48,7 @@ export default modelExtend(model, {
       history.listen((location) => {
         const {pathname} = location
         let match = false
-        if (/\/contract\/pact\/new$/.test(pathname)) {
+        if (/\/pact\/new$/.test(pathname)) {
           dispatch({
             type: 'updateState',
             payload: {
@@ -58,8 +63,8 @@ export default modelExtend(model, {
             },
           })
           match = true
-        } else if (/\/contract\/pact\/\d+\/edit$/.test(pathname)) {
-          const pactNo = pathname.split('/')[3]
+        } else if (/\/pact\/\d+\/edit$/.test(pathname)) {
+          const pactNo = pathname.split('/')[2]
           dispatch({
             type: 'getPact',
             payload: {
@@ -88,7 +93,7 @@ export default modelExtend(model, {
         const pact = yield call(service.createPact, payload)
         pactNo = pact.pactNo
       }
-      yield put(routerRedux.push('/contract/pact/' + pactNo))
+      yield put(routerRedux.push('/pact/' + pactNo))
     },
     * getPact({payload = {}}, {call, put, select}) {
       let pact = yield call(service.getPact, payload.pactNo)

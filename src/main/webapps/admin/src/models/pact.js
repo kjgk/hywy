@@ -1,10 +1,10 @@
-import service from '../services/contract'
+import service from '../services/pact'
 import {pageModel} from './base'
 import modelExtend from "dva-model-extend"
 import queryString from "query-string"
 
-const namespace = 'contract'
-const pathname = '/contract'
+const namespace = 'pact'
+const pathname = '/pact'
 
 export default  modelExtend(pageModel, {
   namespace: namespace,

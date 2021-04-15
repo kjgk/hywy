@@ -36,6 +36,8 @@ public class PaymentInfo implements Serializable {
 
     private Double balance;
 
+    private Integer payType;
+
     private Double payCount;
 
     private Date payDate;
@@ -43,4 +45,9 @@ public class PaymentInfo implements Serializable {
     private String warrant;
 
     private String remark;
+
+    private String company;
+
+    // 序号
+    private Integer index;
 }

@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class ContractInfo implements Serializable {
+public class ProjectInfo implements Serializable {
 
     protected Long projectId;
 
