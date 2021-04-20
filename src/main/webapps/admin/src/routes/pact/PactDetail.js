@@ -364,7 +364,7 @@ const Component = ({
                         <tr key={item.attachNo}>
                           <td>{index + 1}</td>
                           <td>
-                            <a target="_blank" href={`${contentPath}${apiPrefix}/attach/${item.attachNo}/download`}>{item.filename}</a>
+                            <a target="_blank" href={`${contentPath}${apiPrefix}/pact/attach/${item.attachNo}/download`}>{item.filename}</a>
                           </td>
                           <td>
                             <DateFormatter pattern="Y-MM-DD HH:mm" value={item.uploadTime}/>

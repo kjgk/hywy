@@ -12,7 +12,7 @@ const Component = ({
 
   return (
     <div className="formBox">
-      <h4>合同付款审核表</h4>
+      <h4>付款审核表</h4>
       <div className="nodate">
         <table border="0" cellSpacing="0" cellPadding="0" width="130">
           <tr>
@@ -106,7 +106,7 @@ const Component = ({
           </tbody>
         </table>
       </div>
-      <div className="name">项目投资管理部</div>
+      <div className="name">办公室</div>
     </div>
   )
 }
